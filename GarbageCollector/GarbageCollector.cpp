@@ -3,14 +3,27 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <windows.h>
+#include "DeadBox.h"
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "GarbageCollector");
+	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
+	sf::Clock clock;
+	float turnPerSecond = 60;
+
+	DeadBox box;
+	setBox(&box);
+
 	// Initialise everything below
 	// Game loop
 	while (window.isOpen()) {
 		sf::Event event;
+
+		float DeltaTime = clock.getElapsedTime().asSeconds();
+		clock.restart();
+
+		MoveBox(&box);
 		while (window.pollEvent(event)) {
 			// Process any input event here
 			if (event.type == sf::Event::Closed) {
@@ -19,6 +32,7 @@ int main()
 		}
 		window.clear();
 		// Whatever I want to draw goes here
+		DrawBox(&window, &box);
 		window.display();
 	}
 }
