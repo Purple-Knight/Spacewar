@@ -1,5 +1,8 @@
 #include "DeadBox.h"
 
+const float speed = 0.2;
+const float center[2] = { 400,300 };
+
 void setBox(DeadBox* box)
 {
 	box->lineH.setSize(sf::Vector2f(800, 2));
@@ -11,7 +14,9 @@ void setBox(DeadBox* box)
 	box->lineDH.setSize(sf::Vector2f(2, 200));
 	box->lineDH.setPosition(900, 100);
 	box->lineDB.setSize(sf::Vector2f(2, 200));
-	box->lineDB.setPosition(900, 500);
+	box->lineDB.setPosition(900, 600);
+
+	box->timeBox = 0;
 }
 
 void DrawBox(sf::RenderWindow* window,DeadBox* box)
@@ -23,23 +28,32 @@ void DrawBox(sf::RenderWindow* window,DeadBox* box)
 	window->draw(box->lineDB);
 }
 
-void MoveBox(DeadBox* box)
+bool MoveBox(DeadBox* box,float deltaTime)
 {
-	if (box->timeBox < 16000)
-	{
-		box->lineH.setSize(sf::Vector2f(800 - (box->timeBox / 20), 2));
-		box->lineG.setSize(sf::Vector2f(2, 800 - (box->timeBox / 20)));
-		box->lineB.setSize(sf::Vector2f(800 - (box->timeBox / 20), 2));
-		box->lineDH.setSize(sf::Vector2f(2, 200 - (box->timeBox / 80)));
-		box->lineDB.setSize(sf::Vector2f(2, 200 - (box->timeBox / 80)));
-		//if(box->timeBox%2
-		box->lineH.setPosition(0 + (box->timeBox / 20), 0 + (box->timeBox / 20));
-		box->lineG.setPosition(0 + (box->timeBox / 20), 0 + (box->timeBox / 20));
-		box->lineB.setPosition(0 + (box->timeBox / 20), 800 - (box->timeBox / 20));
-		box->lineDH.setPosition(800 - (box->timeBox / 20), 0 + (box->timeBox / 20));
-		box->lineDB.setPosition(800 - (box->timeBox / 20), 400 - (box->timeBox / 40));
+	float boxScale = 1 - (box->timeBox * speed);
+	float boxWidth = 800 * boxScale;
+	float boxHeight = 600 * boxScale;
 
-		box->timeBox++;
+	if (boxScale > 0)
+	{
+
+		box->lineH.setSize(sf::Vector2f(boxWidth, 2));
+		box->lineG.setSize(sf::Vector2f(2,boxHeight));
+		box->lineB.setSize(sf::Vector2f(boxWidth, 2));
+		box->lineDH.setSize(sf::Vector2f(2, boxHeight / 3));
+		box->lineDB.setSize(sf::Vector2f(2, boxHeight / 3));
+
+		box->lineH.setPosition(center[0] - boxWidth / 2, center[1] - boxHeight / 2);
+		box->lineG.setPosition(center[0] - boxWidth / 2, center[1] - boxHeight / 2);
+		box->lineB.setPosition(center[0] - boxWidth / 2, center[1] + boxHeight / 2);
+		box->lineDH.setPosition(center[0] + boxWidth / 2, center[1] - boxHeight / 2);
+		box->lineDB.setPosition(center[0] + boxWidth / 2,(center[1] + boxHeight / 2)-boxHeight / 3);
+
+		box->timeBox+=deltaTime;
+
+		return false;
 	}
 
+	return true;
+	
 }

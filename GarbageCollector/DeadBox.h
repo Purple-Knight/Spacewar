@@ -3,9 +3,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-
-
-
 struct DeadBox
 {
 	sf::RectangleShape lineH;
@@ -13,9 +10,10 @@ struct DeadBox
 	sf::RectangleShape lineB;
 	sf::RectangleShape lineDH;
 	sf::RectangleShape lineDB;
-	float timeBox = 0;
+	float timeBox ;
 };
 
+
 void setBox(DeadBox*);
-void DrawBox(sf::RenderWindow *,DeadBox*);
-void MoveBox(DeadBox*);
+void DrawBox(sf::RenderWindow*, DeadBox*);
+bool MoveBox(DeadBox*,float);
