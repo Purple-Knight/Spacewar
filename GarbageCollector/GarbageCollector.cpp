@@ -5,12 +5,18 @@
 #include <SFML/Graphics.hpp>
 #include <windows.h>
 #include "DeadBox.h"
+#include "Player.h"
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
 	sf::Clock clock;
 	float turnPerSecond = 60;
+
+	Player* player;
+	player = CreatePlayer(20, 20);
+
+
 
 	DeadBox box;
 	setBox(&box);
@@ -30,8 +36,12 @@ int main()
 				window.close();
 			}
 		}
+
+		PlayerMovement(player, window, DeltaTime);
+
 		window.clear();
 		// Whatever I want to draw goes here
+		window.draw(player->playerShape);
 		DrawBox(&window, &box);
 		window.display();
 	}
