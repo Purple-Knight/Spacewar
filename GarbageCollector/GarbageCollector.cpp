@@ -13,10 +13,8 @@ int main()
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
-	sf::RectangleShape rect;
-	rect.setFillColor(sf::Color::Red);
-	rect.setSize(sf::Vector2f(32, 32));
-
+	Player* player;
+	player = CreatePlayer(20, 20);
 
 
 
@@ -39,11 +37,11 @@ int main()
 			}
 		}
 
-		PlayerMovement(rect, window);
+		PlayerMovement(player, window, DeltaTime);
 
 		window.clear();
 		// Whatever I want to draw goes here
-		window.draw(rect);
+		window.draw(player->playerShape);
 		DrawBox(&window, &box);
 		window.display();
 	}

@@ -2,33 +2,53 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 
-void PlayerMovement(sf::RectangleShape& rect, sf::Window& window) 
-{
+const float PI = 3.14159265358979323846f;
+const float SIZE = 32;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+Player* CreatePlayer(float x, float y) 
+{
+	Player* pPlayer = new Player;
+	pPlayer->playerShape.setSize({ SIZE, SIZE });
+	pPlayer->playerShape.setOrigin(SIZE / 2.0f, SIZE / 2.0f);
+	pPlayer->playerShape.setFillColor(sf::Color::Red);
+	pPlayer->playerShape.setPosition(x, y);
+
+	pPlayer->speed = 1000.0f;
+
+	return pPlayer;
+}
+
+void PlayerMovement(Player* player, sf::Window& window, float deltaTime) 
+{
+	float speed = player->speed;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
-		rect.move(0, -0.5);
-	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		rect.move(0, 0.5);
-	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		rect.move(-0.5, 0);
-	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		rect.move(0.5, 0);
+		player->playerShape.move(0, (-0.5 * speed * deltaTime));
 	}
 	
-	sf::Vector2f rectOrigin;
-	rectOrigin.x = (rect.getSize().x / 2);
-	rectOrigin.y = (rect.getSize().y / 2);
-	rect.setOrigin(rectOrigin);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		player->playerShape.move(0, (0.5 * speed * deltaTime));
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	{
+		player->playerShape.move((-0.5 * speed * deltaTime), 0);
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		player->playerShape.move((0.5 * speed * deltaTime), 0);
+	}
+	
+
 
 	sf::Vector2i mousePos;
 	sf::Vector2f rectPos;
 	mousePos = sf::Mouse::getPosition(window);
-	rectPos = rect.getPosition();
-	rect.setRotation(GetRotationAngle(rectPos, mousePos));
+	rectPos = player->playerShape.getPosition();
+	player->playerShape.setRotation(GetRotationAngle(rectPos, mousePos));
 	
 }
 
@@ -36,7 +56,7 @@ float GetRotationAngle(sf::Vector2f& object, sf::Vector2i& mouse)
 {
 	float dx = mouse.x - object.x;
 	float dy = mouse.y - object.y;
-	float radian = atan2f(dx, dy);
-	return -(radian * 180 / 3.1415);
+	float radian = atan2f(dy, dx);
+	return radian * 180 / PI;
 
 }
