@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include <windows.h>
 #include "DeadBox.h"
+#include "LifeDead.h"
+#include "Score.h"
 #include "Player.h"
 
 int main()
@@ -13,38 +15,103 @@ int main()
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
-	Player* player;
-	player = CreatePlayer(20, 20);
+	DeadBox* box = new DeadBox;
+	bool end = true;
+	bool boxReplay = false;
+	setBox(box);
 
+	Player* player = CreatePlayer(400, 400);
 
+	Life life;
+	SetLife(&life);
+	bool lifeDown = false;
 
-	DeadBox box;
-	setBox(&box);
+	Score score;
+	SetScore(&score);
 
 	// Initialise everything below
 	// Game loop
-	while (window.isOpen()) {
+	while (window.isOpen())
+	{
 		sf::Event event;
 
-		float DeltaTime = clock.getElapsedTime().asSeconds();
+		float deltaTime = clock.getElapsedTime().asSeconds();
 		clock.restart();
 
-		MoveBox(&box);
-		while (window.pollEvent(event)) {
+		PlayerMovement(player, window, deltaTime);
+
+		if (score.score % 300 == 0 && !boxReplay)
+		{
+			end = false;
+			boxReplay = true;
+		}
+		else if (score.score % 300 != 0)
+		{
+			boxReplay = false;
+		}
+
+
+		if (!end )
+		{
+			end = MoveBox(box, deltaTime);
+			lifeDown = Dead(&life, box, player);
+			if (lifeDown)
+			{
+				end = true;
+			}
+		}
+
+		while (window.pollEvent(event))
+		{
 			// Process any input event here
-			if (event.type == sf::Event::Closed) {
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
+			{
+				end = false;
+			}
+
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+			{
+				life.nLife++;
+			}
+
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E)
+			{
+				ScoreUp(&score, 10);
+			}
+
+			if (event.type == sf::Event::Closed)
+			{
 				window.close();
 			}
 		}
 
-		PlayerMovement(player, window, DeltaTime);
-
 		window.clear();
+
 		// Whatever I want to draw goes here
-		window.draw(player->playerShape);
-		DrawBox(&window, &box);
+
+
+
+		if (life.nLife != 0)
+		{
+			window.draw(score.idleScore);
+			DrawLife(&window, &life);
+			DrawPlayer(&window, player);
+			if (!end )
+			{
+				DrawBox(&window, box);
+			}
+			else
+			{
+				setBox(box);
+				lifeDown = false;
+			}
+		}
+	
 		window.display();
 	}
+	delete box;
+
+	return 0;
 }
 
 // Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage

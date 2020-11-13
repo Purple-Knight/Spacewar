@@ -11,7 +11,6 @@ void SetScore(Score* score)
 	score->idleScore.setCharacterSize(24);
 	score->idleScore.setPosition(sf::Vector2f(450, 0));
     score->idleScore.setString(std::to_string(score->score));
-    //score->idleScore.setLineSpacing(20);
 }    
 
 

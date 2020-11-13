@@ -11,38 +11,40 @@ void SetLife(Life* life)
 	}
 }
 
-bool Dead(Life* life,DeadBox * deadBox, sf::RectangleShape* player)
+bool Dead(Life* life,DeadBox * deadBox, Player* player)
 {
-	if (deadBox->lineH.getGlobalBounds().intersects(player->getGlobalBounds()))
+	if (life->nLife != 0)
 	{
-		life->nLife--;
-		return true;
-	}
+		if (deadBox->lineH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		{
+			life->nLife--;
+			return true;
+		}
 
-	if (deadBox->lineB.getGlobalBounds().intersects(player->getGlobalBounds()))
-	{
-		life->nLife--;
-		return true;
-	}
+		if (deadBox->lineB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		{
+			life->nLife--;
+			return true;
+		}
 
-	if (deadBox->lineG.getGlobalBounds().intersects(player->getGlobalBounds()))
-	{
-		life->nLife--;
-		return true;
-	}
+		if (deadBox->lineG.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		{
+			life->nLife--;
+			return true;
+		}
 
-	if (deadBox->lineDB.getGlobalBounds().intersects(player->getGlobalBounds()))
-	{
-		life->nLife--;
-		return true;
-	}
+		if (deadBox->lineDB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		{
+			life->nLife--;
+			return true;
+		}
 
-	if (deadBox->lineDH.getGlobalBounds().intersects(player->getGlobalBounds()))
-	{
-		life->nLife--;
-		return true;
+		if (deadBox->lineDH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		{
+			life->nLife--;
+			return true;
+		}
 	}
-
 	return false ;
 }
 
@@ -51,6 +53,10 @@ void DrawLife(sf::RenderWindow* window, Life* life)
 	if (life->nLife > 3)
 	{
 		life->nLife = 3;
+	}
+	else if (life->nLife < 0)
+	{
+		life->nLife == 0;
 	}
 
 	for (int i = 0; i < life->nLife; i++)

@@ -60,3 +60,8 @@ float GetRotationAngle(sf::Vector2f& object, sf::Vector2i& mouse)
 	return radian * 180 / PI;
 
 }
+
+void DrawPlayer(sf::RenderWindow* window, Player* player)
+{
+	window->draw(player->playerShape);
+}

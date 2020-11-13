@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "DeadBox.h"
+#include "Player.h"
 
 struct Life
 {
@@ -11,5 +12,5 @@ struct Life
 };
 
 void SetLife(Life*);
-bool Dead(Life*, DeadBox*, sf::RectangleShape*);
+bool Dead(Life*, DeadBox*, Player*);
 void DrawLife(sf::RenderWindow*, Life*);
