@@ -1,9 +1,2 @@
-﻿  DeadBox.cpp
-  GarbageCollector.cpp
-  Player.cpp
-D:\GitHub\Projet\GarbageCollector\GarbageCollector\GarbageCollector\Player.cpp(27,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\GitHub\Projet\GarbageCollector\GarbageCollector\GarbageCollector\Player.cpp(32,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\GitHub\Projet\GarbageCollector\GarbageCollector\GarbageCollector\Player.cpp(37,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\GitHub\Projet\GarbageCollector\GarbageCollector\GarbageCollector\Player.cpp(42,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  Bullet.cpp
   GarbageCollector.vcxproj -> D:\GitHub\Projet\GarbageCollector\GarbageCollector\Debug\GarbageCollector.exe

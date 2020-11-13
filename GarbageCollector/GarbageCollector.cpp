@@ -4,8 +4,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <windows.h>
+#include <list>
 #include "DeadBox.h"
 #include "Player.h"
+#include "Bullet.h"
 
 int main()
 {
@@ -16,7 +18,8 @@ int main()
 	Player* player;
 	player = CreatePlayer(20, 20);
 
-
+	std::list<Bullet*> bullets;
+	std::list<Bullet*>::iterator bulletsIt = bullets.begin();
 
 	DeadBox box;
 	setBox(&box);
@@ -29,21 +32,55 @@ int main()
 		float DeltaTime = clock.getElapsedTime().asSeconds();
 		clock.restart();
 
-		MoveBox(&box);
+		//MoveBox(&box);
 		while (window.pollEvent(event)) {
 			// Process any input event here
-			if (event.type == sf::Event::Closed) {
-				window.close();
+			switch (event.type)
+			{
+				case sf::Event::Closed:
+					window.close();
+					break;
+				case sf::Event::MouseButtonPressed:
+					if (event.mouseButton.button == sf::Mouse::Button::Left)
+					{
+						std::cout << "Fire !";
+						Fire(window, bullets, player);
+					}
+					
 			}
+			 
 		}
 
 		PlayerMovement(player, window, DeltaTime);
 
+		bulletsIt = bullets.begin();
+		while (bulletsIt != bullets.end())
+		{	
+			BulletUpdate(*bulletsIt, player, window);
+			bulletsIt++;
+		}
+		
+
 		window.clear();
 		// Whatever I want to draw goes here
+
+		bulletsIt = bullets.begin();
+		while (bulletsIt != bullets.end())
+		{
+			Draw(*bulletsIt, window);
+			bulletsIt++;
+		}
+
 		window.draw(player->playerShape);
 		DrawBox(&window, &box);
 		window.display();
+	}
+
+	bulletsIt = bullets.begin();
+	while (bulletsIt != bullets.end())
+	{
+		Destroy(*bulletsIt);
+		bulletsIt++;
 	}
 }
 
