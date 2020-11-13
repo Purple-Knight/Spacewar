@@ -127,21 +127,22 @@ int main()
 
 		// Whatever I want to draw goes here
 
-		if (!end)
-		{
-			DrawBox(&window, box);
-		}
-		else
-		{
-			setBox(box);
-		}
 
-		DrawLife(&window, &life);
-		window.draw(score.idleScore);
 
 		if (life.nLife != 0)
 		{
+			window.draw(score.idleScore);
+			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
+			if (!end )
+			{
+				DrawBox(&window, box);
+			}
+			else
+			{
+				setBox(box);
+				lifeDown = false;
+			}
 		}
 
 		enemiesIt = enemies.begin();
