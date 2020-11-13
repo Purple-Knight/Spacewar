@@ -53,10 +53,6 @@ void Draw(Bullet* pBullet, sf::RenderWindow& window)
 	window.draw(pBullet->bulletShape);
 }
 
-bool IsAlive(Bullet* pBullet) {
-	return pBullet->life >= 0;
-}
-
 void Destroy(Bullet* pBullet)
 {
 	delete pBullet;
