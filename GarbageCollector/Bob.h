@@ -9,10 +9,7 @@ private:
 
 public:
 	Bob(float x, float y, float dirAngle);
-	void Update();
-	void UpdateMove();
+	void Update(float deltaTime) override;
+	void UpdateMove(float deltaTime) override;
 	~Bob();
-
-private:
-
 };

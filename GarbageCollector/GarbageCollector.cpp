@@ -11,11 +11,12 @@
 #include "Enemy.h"
 #include "Bob.h"
 
-const float ENEMY_SPAWN_PERIOD = 0.3f; // Spawn an entity every x seconds
+const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 
 
 int main()
 {
+	// Initialise everything below
 	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
 	sf::Clock clock;
 	float turnPerSecond = 60;
@@ -34,17 +35,17 @@ int main()
 	Score score;
 	SetScore(&score);
 
-	float entitySpawnTimer = 0.0f;
+	float enemiesSpawnTimer = 0.0f;
 
-
-	// Initialise everything below
+	std::list<Enemy*> enemies;
+	std::list<Enemy*>::iterator enemiesIt = enemies.begin();
+	
 	// Game loop
 	while (window.isOpen()) {
 		sf::Event event;
 
 		float deltaTime = clock.getElapsedTime().asSeconds();
 		clock.restart();
-		window.clear();
 
 		if (!end)
 		{
@@ -52,8 +53,6 @@ int main()
 			end = Dead(&life, box, &player);
 		}
 
-		std::list<Enemy*> enemies;
-		std::list<Enemy*>::iterator enemiesIt = enemies.begin();
 
 		while (window.pollEvent(event)) {
 			// Process any input event here
@@ -75,9 +74,9 @@ int main()
 		}
 
 		// Spawn Enemy
-		entitySpawnTimer += deltaTime;
-		if (entitySpawnTimer > ENEMY_SPAWN_PERIOD) {
-			entitySpawnTimer = 0.0f;
+		enemiesSpawnTimer += deltaTime;
+		if (enemiesSpawnTimer > ENEMY_SPAWN_PERIOD) {
+			enemiesSpawnTimer = 0.0f;
 
 			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
 			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
@@ -86,17 +85,18 @@ int main()
 			enemies.push_back(pNewEnemy);
 		}
 
+		// Make sure all enemies are alive 
 		enemiesIt = enemies.begin();
 		while (enemiesIt != enemies.end()) {
 			(*enemiesIt)->Update(deltaTime);
-			//if (!IsAlive(*enemiesIt)) {
-			//	(*enemiesIt)->~Enemy();
-			//	enemiesIt = enemies.erase(enemiesIt);
-			//}
-			//else {
-			//	enemiesIt++;
-			//}
-			enemiesIt++;
+			if (!(*enemiesIt)->isAlive) {
+				(*enemiesIt)->~Enemy();
+				std::cout << "Mort d'un Enemy" << std::endl;
+				enemiesIt = enemies.erase(enemiesIt);
+			}
+			else {
+				enemiesIt++;
+			}
 		}
 
 		window.clear();
@@ -116,6 +116,12 @@ int main()
 		if (life.nLife != 0)
 		{
 			window.draw(player);
+		}
+
+		enemiesIt = enemies.begin();
+		while (enemiesIt != enemies.end()) {
+			(*enemiesIt)->Draw(&window);
+			enemiesIt++;
 		}
 
 

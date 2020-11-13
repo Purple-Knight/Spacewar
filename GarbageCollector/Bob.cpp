@@ -6,17 +6,21 @@ Bob::Bob(float x, float y, float dirAngle) : Enemy(x, y, dirAngle)
 	shape.setPointCount(3);
 	shape.setFillColor(sf::Color::Magenta);
 	shape.setPosition(x, y);
-	std::cout << "Bob" << std::endl;
+	shape.setRotation(dirAngle);
+
+	std::cout << "Bob : " << shape.getPosition().x << ", " << shape.getPosition().y << std::endl;
 }
 
-void Bob::Update()
+void Bob::Update(float deltaTime)
 {
+	Enemy::Update(deltaTime);
 }
 
-void Bob::UpdateMove()
+void Bob::UpdateMove(float deltaTime)
 {
 }
 
 Bob::~Bob()
 {
+	std::cout << "Bob died" << std::endl;
 }
