@@ -127,11 +127,16 @@ int main()
 
 		// Whatever I want to draw goes here
 
-
+		window.draw(score.idleScore);
 
 		if (life.nLife != 0)
 		{
-			window.draw(score.idleScore);
+			enemiesIt = enemies.begin();
+			while (enemiesIt != enemies.end()) {
+				(*enemiesIt)->Draw(&window);
+				enemiesIt++;
+			}
+
 			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
 			if (!end )
@@ -145,11 +150,6 @@ int main()
 			}
 		}
 
-		enemiesIt = enemies.begin();
-		while (enemiesIt != enemies.end()) {
-			(*enemiesIt)->Draw(&window);
-			enemiesIt++;
-		}
 
 
 		window.display();
