@@ -4,8 +4,15 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <windows.h>
+#include <list>
 #include "DeadBox.h"
-#include "Player.h"
+#include "LifeDead.h"
+#include "Score.h"
+#include "Enemy.h"
+#include "Bob.h"
+
+const float ENEMY_SPAWN_PERIOD = 0.3f; // Spawn an entity every x seconds
+
 
 int main()
 {
@@ -13,47 +20,107 @@ int main()
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
-	Player* player;
-	player = CreatePlayer(20, 20);
+	DeadBox* box = new DeadBox;
+	bool end = false;
+	setBox(box);
 
+	sf::RectangleShape player;
+	player.setSize(sf::Vector2f(20, 20));
+	player.setPosition(400, 400);
 
+	Life life;
+	SetLife(&life);
 
-	DeadBox box;
-	setBox(&box);
+	Score score;
+	SetScore(&score);
+
+	float entitySpawnTimer = 0.0f;
+
 
 	// Initialise everything below
 	// Game loop
 	while (window.isOpen()) {
 		sf::Event event;
 
-		float DeltaTime = clock.getElapsedTime().asSeconds();
+		float deltaTime = clock.getElapsedTime().asSeconds();
 		clock.restart();
+		window.clear();
 
-		MoveBox(&box);
+		if (!end)
+		{
+			end = MoveBox(box, deltaTime);
+			end = Dead(&life, box, &player);
+		}
+
+		std::list<Enemy*> enemies;
+		std::list<Enemy*>::iterator enemiesIt = enemies.begin();
+
 		while (window.pollEvent(event)) {
 			// Process any input event here
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
+			{
+				end = false;
+			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+			{
+				life.nLife++;
+			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E)
+			{
+				ScoreUp(&score, 10);
+			}
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
 		}
 
-		PlayerMovement(player, window, DeltaTime);
+		// Spawn Enemy
+		entitySpawnTimer += deltaTime;
+		if (entitySpawnTimer > ENEMY_SPAWN_PERIOD) {
+			entitySpawnTimer = 0.0f;
+
+			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
+			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
+			float randomAngle = rand() * 360.0f / (float)RAND_MAX;
+			Enemy* pNewEnemy = new Bob(randomX, randomY, randomAngle);
+			enemies.push_back(pNewEnemy);
+		}
+
+		enemiesIt = enemies.begin();
+		while (enemiesIt != enemies.end()) {
+			(*enemiesIt)->Update(deltaTime);
+			//if (!IsAlive(*enemiesIt)) {
+			//	(*enemiesIt)->~Enemy();
+			//	enemiesIt = enemies.erase(enemiesIt);
+			//}
+			//else {
+			//	enemiesIt++;
+			//}
+			enemiesIt++;
+		}
 
 		window.clear();
 		// Whatever I want to draw goes here
-		window.draw(player->playerShape);
-		DrawBox(&window, &box);
+		if (!end)
+		{
+			DrawBox(&window, box);
+		}
+		else
+		{
+			setBox(box);
+		}
+
+		DrawLife(&window, &life);
+		window.draw(score.idleScore);
+
+		if (life.nLife != 0)
+		{
+			window.draw(player);
+		}
+
+
 		window.display();
 	}
+	delete box;
+	return 0;
 }
-
-// Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
-// Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage
-
-// Astuces pour bien démarrer : 
-//   1. Utilisez la fenêtre Explorateur de solutions pour ajouter des fichiers et les gérer.
-//   2. Utilisez la fenêtre Team Explorer pour vous connecter au contrôle de code source.
-//   3. Utilisez la fenêtre Sortie pour voir la sortie de la génération et d'autres messages.
-//   4. Utilisez la fenêtre Liste d'erreurs pour voir les erreurs.
-//   5. Accédez à Projet > Ajouter un nouvel élément pour créer des fichiers de code, ou à Projet > Ajouter un élément existant pour ajouter des fichiers de code existants au projet.
-//   6. Pour rouvrir ce projet plus tard, accédez à Fichier > Ouvrir > Projet et sélectionnez le fichier .sln.
