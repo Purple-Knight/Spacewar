@@ -105,7 +105,6 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Button::Left)
 				{
-					std::cout << "Fire !";
 					Fire(window, bullets, player, aimDirNorm);
 				}
 			}
@@ -127,8 +126,6 @@ int main()
 			{
 				bulletsIt++;
 			}
-
-			std::cout << bullets.size() << std::endl;
 		}
 
 		// Spawn Enemy
