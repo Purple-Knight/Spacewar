@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bob.h"
+#include "Bullet.h"
 
 const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 
@@ -41,6 +42,9 @@ int main()
 
 	std::list<Enemy*> enemies;
 	std::list<Enemy*>::iterator enemiesIt = enemies.begin();
+
+	std::list<Bullet*> bullets;
+	std::list<Bullet*>::iterator bulletsIt = bullets.begin();
 	
 	// Game loop
 	while (window.isOpen())
@@ -51,6 +55,7 @@ int main()
 		clock.restart();
 
 		PlayerMovement(player, window, deltaTime);
+		sf::Vector2f aimDirNorm = GetAimDirNorm(player, window);
 
 		if (score.score % 300 == 0 && !boxReplay)
 		{
@@ -95,8 +100,36 @@ int main()
 			{
 				window.close();
 			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Button::Left)
+				{
+					std::cout << "Fire !";
+					Fire(window, bullets, player, aimDirNorm);
+				}
+			}
+				
 		}
 
+		//Bullet Update
+		bulletsIt = bullets.begin();
+		while (bulletsIt != bullets.end())
+		{
+			BulletUpdate(*bulletsIt, player, window, deltaTime);
+
+			if ((*bulletsIt)->bulletShape.getPosition().x < 0 || (*bulletsIt)->bulletShape.getPosition().x > window.getSize().x || (*bulletsIt)->bulletShape.getPosition().y < 0 || (*bulletsIt)->bulletShape.getPosition().y > window.getSize().y)
+			{
+				Destroy(*bulletsIt);
+				bulletsIt = bullets.erase(bulletsIt);
+			}
+			else
+			{
+				bulletsIt++;
+			}
+
+			std::cout << bullets.size() << std::endl;
+		}
 
 		// Spawn Enemy
 		enemiesSpawnTimer += deltaTime;
@@ -129,8 +162,17 @@ int main()
 
 		window.draw(score.idleScore);
 
+		
+
 		if (life.nLife != 0)
 		{
+			bulletsIt = bullets.begin();
+			while (bulletsIt != bullets.end())
+			{
+				Draw(*bulletsIt, window);
+				bulletsIt++;
+			}
+
 			enemiesIt = enemies.begin();
 			while (enemiesIt != enemies.end()) {
 				(*enemiesIt)->Draw(&window);
@@ -154,6 +196,14 @@ int main()
 
 		window.display();
 	}
+
+	bulletsIt = bullets.begin();
+	while (bulletsIt != bullets.end())
+	{
+		Destroy(*bulletsIt);
+		bulletsIt++;
+	}
+
 	delete box;
 	return 0;
 }
