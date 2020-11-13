@@ -91,7 +91,6 @@ int main()
 			(*enemiesIt)->Update(deltaTime);
 			if (!(*enemiesIt)->isAlive) {
 				(*enemiesIt)->~Enemy();
-				std::cout << "Mort d'un Enemy" << std::endl;
 				enemiesIt = enemies.erase(enemiesIt);
 			}
 			else {

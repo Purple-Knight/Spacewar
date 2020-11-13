@@ -24,5 +24,5 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
 	void Draw(sf::RenderWindow* window);
-	~Enemy();
+	virtual ~Enemy();
 };

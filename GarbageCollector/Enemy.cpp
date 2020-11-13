@@ -33,4 +33,6 @@ void Enemy::Draw(sf::RenderWindow* window)
 
 Enemy::~Enemy()
 {
+	std::cout << "Enemy died" << std::endl;
+
 }
