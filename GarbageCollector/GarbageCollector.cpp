@@ -4,18 +4,26 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <windows.h>
+#include <list>
 #include "DeadBox.h"
 #include "LifeDead.h"
 #include "Score.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Bob.h"
+
+const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
+
 
 int main()
 {
+	// Initialise everything below
 	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
 	DeadBox* box = new DeadBox;
+
 	bool end = true;
 	bool boxReplay = false;
 	setBox(box);
@@ -29,7 +37,11 @@ int main()
 	Score score;
 	SetScore(&score);
 
-	// Initialise everything below
+	float enemiesSpawnTimer = 0.0f;
+
+	std::list<Enemy*> enemies;
+	std::list<Enemy*>::iterator enemiesIt = enemies.begin();
+	
 	// Game loop
 	while (window.isOpen())
 	{
@@ -78,10 +90,36 @@ int main()
 			{
 				ScoreUp(&score, 10);
 			}
-
+			
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
+			}
+		}
+
+
+		// Spawn Enemy
+		enemiesSpawnTimer += deltaTime;
+		if (enemiesSpawnTimer > ENEMY_SPAWN_PERIOD) {
+			enemiesSpawnTimer = 0.0f;
+
+			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
+			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
+			float randomAngle = rand() * 360.0f / (float)RAND_MAX;
+			Enemy* pNewEnemy = new Bob(randomX, randomY, randomAngle);
+			enemies.push_back(pNewEnemy);
+		}
+
+		// Make sure all enemies are alive 
+		enemiesIt = enemies.begin();
+		while (enemiesIt != enemies.end()) {
+			(*enemiesIt)->Update(deltaTime);
+			if (!(*enemiesIt)->isAlive) {
+				(*enemiesIt)->~Enemy();
+				enemiesIt = enemies.erase(enemiesIt);
+			}
+			else {
+				enemiesIt++;
 			}
 		}
 
@@ -89,38 +127,32 @@ int main()
 
 		// Whatever I want to draw goes here
 
+		if (!end)
+		{
+			DrawBox(&window, box);
+		}
+		else
+		{
+			setBox(box);
+		}
 
+		DrawLife(&window, &life);
+		window.draw(score.idleScore);
 
 		if (life.nLife != 0)
 		{
-			window.draw(score.idleScore);
-			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
-			if (!end )
-			{
-				DrawBox(&window, box);
-			}
-			else
-			{
-				setBox(box);
-				lifeDown = false;
-			}
 		}
-	
+
+		enemiesIt = enemies.begin();
+		while (enemiesIt != enemies.end()) {
+			(*enemiesIt)->Draw(&window);
+			enemiesIt++;
+		}
+
+
 		window.display();
 	}
 	delete box;
-
 	return 0;
 }
-
-// Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
-// Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage
-
-// Astuces pour bien démarrer : 
-//   1. Utilisez la fenêtre Explorateur de solutions pour ajouter des fichiers et les gérer.
-//   2. Utilisez la fenêtre Team Explorer pour vous connecter au contrôle de code source.
-//   3. Utilisez la fenêtre Sortie pour voir la sortie de la génération et d'autres messages.
-//   4. Utilisez la fenêtre Liste d'erreurs pour voir les erreurs.
-//   5. Accédez à Projet > Ajouter un nouvel élément pour créer des fichiers de code, ou à Projet > Ajouter un élément existant pour ajouter des fichiers de code existants au projet.
-//   6. Pour rouvrir ce projet plus tard, accédez à Fichier > Ouvrir > Projet et sélectionnez le fichier .sln.
