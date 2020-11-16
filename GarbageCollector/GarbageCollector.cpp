@@ -12,7 +12,6 @@
 #include "Enemy.h"
 #include "Bob.h"
 #include "Bullet.h"
-#include "BackGround.h"
 
 const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 
@@ -47,19 +46,6 @@ int main()
 	std::list<Bullet*> bullets;
 	std::list<Bullet*>::iterator bulletsIt = bullets.begin();
 	
-	std::list<Background*> stars;
-	std::list<Background*>::iterator starsIt = stars.begin();
-	
-	//Spawn Background
-	for (int i = 0; i < 125; i++)
-	{
-		float randomX = rand() * window.getSize().x / (float)RAND_MAX;
-		float randomY = rand() * window.getSize().y / (float)RAND_MAX;
-		float randomAngle = rand() * 360.0f / (float)RAND_MAX;
-		Background* pBackground = new Background(randomX, randomY, randomAngle);
-		stars.push_back(pBackground);
-	}
-
 	// Game loop
 	while (window.isOpen())
 	{
@@ -142,16 +128,6 @@ int main()
 			}
 		}
 
-		
-
-		//Background Update
-		starsIt = stars.begin();
-		while (starsIt != stars.end())
-		{
-			(*starsIt)->Update(deltaTime);
-			starsIt++;
-		}
-
 		// Spawn Enemy
 		enemiesSpawnTimer += deltaTime;
 		if (enemiesSpawnTimer > ENEMY_SPAWN_PERIOD) {
@@ -194,13 +170,6 @@ int main()
 				Draw(*bulletsIt, window);
 				bulletsIt++;
 			}
-			
-			starsIt = stars.begin();
-			while (starsIt != stars.end())
-			{
-				(*starsIt)->Draw(window);
-				starsIt++;
-			}
 
 			enemiesIt = enemies.begin();
 			while (enemiesIt != enemies.end()) {
@@ -231,20 +200,6 @@ int main()
 	{
 		Destroy(*bulletsIt);
 		bulletsIt++;
-	}
-
-	starsIt = stars.begin();
-	while (starsIt != stars.end())
-	{
-		delete(*starsIt);
-		starsIt = stars.erase(starsIt);
-	}
-	
-	enemiesIt = enemies.begin();
-	while (enemiesIt != enemies.end())
-	{
-		delete(*enemiesIt);
-		enemiesIt = enemies.erase(enemiesIt);
 	}
 
 	delete box;

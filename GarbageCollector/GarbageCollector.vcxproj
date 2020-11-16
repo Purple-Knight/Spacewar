@@ -149,7 +149,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Bob.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DeadBox.cpp" />
@@ -161,7 +160,6 @@
     <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Bob.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="DeadBox.h" />
