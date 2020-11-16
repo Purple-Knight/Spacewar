@@ -135,15 +135,16 @@ int main()
 
 			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
 			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
-			float randomAngle = rand() * 360.0f / (float)RAND_MAX;
-			Enemy* pNewEnemy = new Bob(randomX, randomY, randomAngle);
+			Enemy* pNewEnemy = new Bob(randomX, randomY, &window);
 			enemies.push_back(pNewEnemy);
 		}
 
-		// Make sure all enemies are alive 
+		// Make sure all enemies are alive and Update it
 		enemiesIt = enemies.begin();
 		while (enemiesIt != enemies.end()) {
+
 			(*enemiesIt)->Update(deltaTime);
+
 			if (!(*enemiesIt)->isAlive) {
 				(*enemiesIt)->~Enemy();
 				enemiesIt = enemies.erase(enemiesIt);

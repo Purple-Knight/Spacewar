@@ -1,7 +1,13 @@
 #include "Enemy.h"
 
-Enemy::Enemy(float x, float y, float dirAngle)
+Enemy::Enemy(float x_, float y_, sf::RenderWindow* window_)
 {
+	//init
+	window = window_;
+	x = x_;
+	y = y_;
+	shape.setOrigin({ ENEMIES_SIZE / 2, ENEMIES_SIZE / 2 });
+
 	life = MIN_LIFE;
 	speed = MIN_SPEED;
 
@@ -14,16 +20,27 @@ void Enemy::Update(float deltaTime)
 	// Update position
 	UpdateMove(deltaTime);
 
-
-	if (timeAlive * deltaTime >= 30)
+	//Life time
+	if (timeAlive >= MIN_LIFE_TIME)
 	{
 		isAlive = false;
 	}
-	timeAlive++;
+	timeAlive += deltaTime;
 }
 
 void Enemy::UpdateMove(float deltaTime)
 {
+	if (x + direction.x - (ENEMIES_SIZE / 2) < 0 || x + direction.x + (ENEMIES_SIZE / 2) > window->getSize().x)
+	{
+		direction.x *= -1;
+		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);
+	}
+	else if (y + direction.y - (ENEMIES_SIZE / 2) < 0 || y + direction.y + (ENEMIES_SIZE / 2) > window->getSize().y)
+	{
+		direction.y *= -1;
+		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);
+	}
+	
 }
 
 void Enemy::Draw(sf::RenderWindow* window)

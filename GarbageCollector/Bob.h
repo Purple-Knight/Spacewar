@@ -8,7 +8,7 @@ class Bob : public Enemy
 private:
 
 public:
-	Bob(float x, float y, float dirAngle);
+	Bob(float x_, float y_, sf::RenderWindow* window_);
 	void Update(float deltaTime) override;
 	void UpdateMove(float deltaTime) override;
 	~Bob() override;

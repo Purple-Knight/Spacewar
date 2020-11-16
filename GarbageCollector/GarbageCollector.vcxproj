@@ -155,6 +155,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GarbageCollector.cpp" />
     <ClCompile Include="LifeDead.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Score.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="DeadBox.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="LifeDead.h" />
+    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Score.h" />
   </ItemGroup>
