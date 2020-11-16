@@ -184,30 +184,29 @@ int main()
 
 		window.draw(score.idleScore);
 
-		
-
-		if (life.nLife != 0)
-		{
-			bulletsIt = bullets.begin();
-			while (bulletsIt != bullets.end())
-			{
-				Draw(*bulletsIt, window);
-				bulletsIt++;
-			}
-			
-			starsIt = stars.begin();
+		starsIt = stars.begin();
 			while (starsIt != stars.end())
 			{
 				(*starsIt)->Draw(window);
 				starsIt++;
 			}
 
+		if (life.nLife != 0)
+		{
+			//Draw Bullet
+			bulletsIt = bullets.begin();
+			while (bulletsIt != bullets.end())
+			{
+				Draw(*bulletsIt, window);
+				bulletsIt++;
+			}
+			//Draw Enemy
 			enemiesIt = enemies.begin();
 			while (enemiesIt != enemies.end()) {
 				(*enemiesIt)->Draw(&window);
 				enemiesIt++;
 			}
-
+			
 			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
 			if (!end )
@@ -220,8 +219,6 @@ int main()
 				lifeDown = false;
 			}
 		}
-
-
 
 		window.display();
 	}
