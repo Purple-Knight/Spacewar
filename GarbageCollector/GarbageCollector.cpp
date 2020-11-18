@@ -21,7 +21,7 @@ const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 int main()
 {
 	// Initialise everything below
-	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
+	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector", sf::Style::Fullscreen);
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
@@ -152,7 +152,7 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Button::Left)
 				{
-					Fire(window, bullets, player, aimDirNorm);
+					Fire(bullets, player, aimDirNorm);
 				}
 			}
 				
@@ -162,9 +162,21 @@ int main()
 		bulletsIt = bullets.begin();
 		while (bulletsIt != bullets.end())
 		{
-			BulletUpdate(*bulletsIt, player, window, deltaTime);
+			BulletUpdate(*bulletsIt, deltaTime);
+			
+			enemiesIt = enemies.begin();
+			while (enemiesIt != enemies.end())
+			{	
+				TestCollision((*bulletsIt), (*enemiesIt));
+				enemiesIt++;
+			}
 
-			if ((*bulletsIt)->bulletShape.getPosition().x < 0 || (*bulletsIt)->bulletShape.getPosition().x > window.getSize().x || (*bulletsIt)->bulletShape.getPosition().y < 0 || (*bulletsIt)->bulletShape.getPosition().y > window.getSize().y)
+			if (!(*bulletsIt)->isAlive) {
+				delete(*bulletsIt);
+				bulletsIt = bullets.erase(bulletsIt);
+				ScoreUp(&score, 10);
+			}
+			else if ((*bulletsIt)->bulletShape.getPosition().x < 0 || (*bulletsIt)->bulletShape.getPosition().x > window.getSize().x || (*bulletsIt)->bulletShape.getPosition().y < 0 || (*bulletsIt)->bulletShape.getPosition().y > window.getSize().y)
 			{
 				Destroy(*bulletsIt);
 				bulletsIt = bullets.erase(bulletsIt);
@@ -175,6 +187,7 @@ int main()
 			}
 		}
 
+		
 		
 
 		//Background Update
@@ -192,7 +205,7 @@ int main()
 
 			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
 			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
-			Enemy* pNewEnemy = new Guy(randomX, randomY, &window, player);
+			Enemy* pNewEnemy = new Bob(randomX, randomY, &window);
 			enemies.push_back(pNewEnemy);
 		}
 
