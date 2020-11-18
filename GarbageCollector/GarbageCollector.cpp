@@ -37,11 +37,11 @@ int main()
 	Player* player = CreatePlayer(window.getSize().x / 2, window.getSize().y / 2);
 
 	Life life;
-	SetLife(&life);
+	SetLife(&life,&window);
 	
 
 	Score score;
-	SetScore(&score);
+	SetScore(&score,&window);
 
 	float enemiesSpawnTimer = 0.0f;
 
@@ -55,7 +55,7 @@ int main()
 	std::list<Background*>::iterator starsIt = stars.begin();
 	
 	//Spawn Background
-	for (int i = 0; i < 125; i++)
+	for (int i = 0; i < 450; i++)
 	{
 		float randomX = rand() * window.getSize().x / (float)RAND_MAX;
 		float randomY = rand() * window.getSize().y / (float)RAND_MAX;
@@ -77,7 +77,7 @@ int main()
 
 		if (score.score % 300 == 0 && !boxReplay)
 		{
-			AddBox(&box);
+			AddBox(&box, &window);
 			boxReplay = true;
 
 			for (int i = 0; i < score.score / 300; i++)
@@ -98,19 +98,19 @@ int main()
 				switch ((*boxIt)->GetRandom())
 				{
 				case 0 :
-					(*boxIt)->SetEnd((*boxIt)->MoveBoxD(deltaTime));
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxD(deltaTime, &window));
 					break;
 
 				case 1:
-					(*boxIt)->SetEnd((*boxIt)->MoveBoxG(deltaTime));
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxG(deltaTime, &window));
 					break;
 
 				case 2:
-					(*boxIt)->SetEnd((*boxIt)->MoveBoxB(deltaTime));
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxB(deltaTime, &window));
 					break;
 
 				case 3:
-					(*boxIt)->SetEnd((*boxIt)->MoveBoxH(deltaTime));
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxH(deltaTime, &window));
 					break;
 
 				}
@@ -130,7 +130,7 @@ int main()
 			// Process any input event here
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			{
-   				AddBox(&box);
+   				AddBox(&box, &window);
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
@@ -261,7 +261,7 @@ int main()
 			{
 				if (nBoxSpawn != 0 && (*boxIt)->GetBoxScale() <= 0.5 && !drawBox)
 				{
-					AddBox(&box);
+					AddBox(&box, &window);
 					nBoxSpawn--;
 					drawBox = true;
 				}
@@ -278,6 +278,10 @@ int main()
 				}
 
 			}
+		}
+		else
+		{
+			GameOver(&score, &window);
 		}
 
 		window.display();

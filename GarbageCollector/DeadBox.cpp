@@ -1,19 +1,29 @@
 #include "DeadBox.h"
 
 const float speed = 0.2;
-const float center[2] = { 450,450 };
 
-DeadBox::DeadBox()
+DeadBox::DeadBox(sf::RenderWindow* window)
 {
 	srand(time(NULL));
 
 	random = rand() % 4;
 
 	timeBox = 0;
-	taille = 800;
+	if (window->getSize().x > window->getSize().y)
+	{
+		taille = window->getSize().x;
+	}
+	else
+	{
+		taille = window->getSize().y;
+	}
+
 
 	end = false;
 	lifeDown = false;
+
+	center[0] = window->getSize().x / 2;
+	center[1] = (window->getSize().y / 2) - 30;
 }
 
 void DeadBox::DrawBox(sf::RenderWindow* window)
@@ -43,10 +53,10 @@ void DeadBox::setSizeHB(float boxWidth)
 	lineDB.setSize(sf::Vector2f(boxWidth / 3, 2 ));
 }
 
-bool DeadBox::MoveBoxD(float deltaTime) //n°1
+bool DeadBox::MoveBoxD(float deltaTime, sf::RenderWindow* window) 
 {
 	boxScale = 1 - (timeBox * speed);
-	float boxWidth = 800 * boxScale;
+	float boxWidth = taille* boxScale;
 
 
 	if (boxScale > 0)
@@ -69,10 +79,10 @@ bool DeadBox::MoveBoxD(float deltaTime) //n°1
 	
 }
 
-bool DeadBox::MoveBoxG(float deltaTime) //n°2
+bool DeadBox::MoveBoxG(float deltaTime, sf::RenderWindow* window) 
 {
 	boxScale = 1 - (timeBox * speed);
-	float boxWidth = 800 * boxScale;
+	float boxWidth = taille * boxScale;
 
 
 	if (boxScale > 0)
@@ -98,10 +108,10 @@ bool DeadBox::MoveBoxG(float deltaTime) //n°2
 
 }
 
-bool DeadBox::MoveBoxH(float deltaTime)
+bool DeadBox::MoveBoxH(float deltaTime, sf::RenderWindow* window) 
 {
 	boxScale = 1 - (timeBox * speed);
-	float boxWidth = 800 * boxScale;
+	float boxWidth = taille * boxScale;
 
 
 	if (boxScale > 0)
@@ -128,10 +138,10 @@ bool DeadBox::MoveBoxH(float deltaTime)
 
 }
 
-bool DeadBox::MoveBoxB(float deltaTime)
+bool DeadBox::MoveBoxB(float deltaTime, sf::RenderWindow* window) 
 {
 	boxScale = 1 - (timeBox * speed);
-	float boxWidth = 800 * boxScale;
+	float boxWidth = taille * boxScale;
 
 
 	if (boxScale > 0)
@@ -188,9 +198,10 @@ float DeadBox::GetBoxScale(void)
 	return boxScale;
 }
 
-void AddBox(std::list<DeadBox*> *box)
+void AddBox(std::list<DeadBox*> *box, sf::RenderWindow* window)
 {
-	DeadBox* newBox = new DeadBox;
+	DeadBox* newBox = new DeadBox (window);
+
 	if (newBox->GetRandom() == 0 || newBox->GetRandom() == 1)
 	{
 		newBox->setSizeGD(newBox->taille);
