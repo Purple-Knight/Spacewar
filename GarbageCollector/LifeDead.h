@@ -11,6 +11,6 @@ struct Life
 	sf::CircleShape iconeLife[3];
 };
 
-void SetLife(Life*);
+void SetLife(Life*,sf::RenderWindow*);
 bool Dead(Life*, DeadBox*, Player*);
 void DrawLife(sf::RenderWindow*, Life*);

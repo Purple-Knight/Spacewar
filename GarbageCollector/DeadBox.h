@@ -15,6 +15,7 @@ private:
 	int random ;
 	bool end;
 	bool lifeDown;
+	float center[2];
 
 public :
 	float taille;
@@ -24,13 +25,13 @@ public :
 	sf::RectangleShape lineDH;
 	sf::RectangleShape lineDB;
 
-	DeadBox();
+	DeadBox(sf::RenderWindow*);
 
 	void DrawBox(sf::RenderWindow*);
-	bool MoveBoxD(float);
-	bool MoveBoxG(float);
-	bool MoveBoxH(float);
-	bool MoveBoxB(float);
+	bool MoveBoxD(float, sf::RenderWindow* window);
+	bool MoveBoxG(float, sf::RenderWindow* window);
+	bool MoveBoxH(float, sf::RenderWindow* window);
+	bool MoveBoxB(float, sf::RenderWindow* window);
 	void setSizeGD(float);
 	void setSizeHB(float);
 	int GetRandom(void);
@@ -42,4 +43,4 @@ public :
 
 };
 
-	void AddBox(std::list<DeadBox*>*);
+	void AddBox(std::list<DeadBox*>*, sf::RenderWindow*);

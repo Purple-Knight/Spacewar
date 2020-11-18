@@ -1,13 +1,13 @@
 #include "LifeDead.h"
 
-void SetLife(Life* life)
+void SetLife(Life* life, sf::RenderWindow* window)
 {
 	for (int i = 0; i < life->nLife; i++)
 	{
 		life->iconeLife[i].setFillColor(sf::Color::Red);
 		life->iconeLife[i].setRadius(20.0f);
 		life->iconeLife[i].setOrigin(sf::Vector2f(10, 10));
-		life->iconeLife[i].setPosition(sf::Vector2f(860-(i * 50), 20));
+		life->iconeLife[i].setPosition(sf::Vector2f(window->getSize().x - (i * 50) - 40, 20));
 	}
 }
 
