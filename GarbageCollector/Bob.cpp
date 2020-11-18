@@ -11,7 +11,7 @@ Bob::Bob(float x_, float y_, sf::RenderWindow* window_) : Enemy(x_, y_, window_)
 	shape.setPosition(x, y);
 	shape.setRotation(dirAngle);
 
-	//set derection
+	//set direction
 	direction.x = cos(ConvertDegToRad(dirAngle - 90));
 	direction.y = sin(ConvertDegToRad(dirAngle - 90));
 	

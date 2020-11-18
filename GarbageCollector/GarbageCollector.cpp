@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bob.h"
+#include "Guy.h"
 #include "Bullet.h"
 #include "BackGround.h"
 
@@ -20,7 +21,7 @@ const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 int main()
 {
 	// Initialise everything below
-	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
@@ -191,7 +192,7 @@ int main()
 
 			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
 			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
-			Enemy* pNewEnemy = new Bob(randomX, randomY, &window);
+			Enemy* pNewEnemy = new Guy(randomX, randomY, &window, player);
 			enemies.push_back(pNewEnemy);
 		}
 

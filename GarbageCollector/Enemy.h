@@ -31,5 +31,6 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
 	void Draw(sf::RenderWindow* window);
+	sf::Vector2f GetPosition();
 	virtual ~Enemy();
 };

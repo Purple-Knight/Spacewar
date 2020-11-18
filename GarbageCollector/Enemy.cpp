@@ -26,6 +26,11 @@ void Enemy::Update(float deltaTime)
 		isAlive = false;
 	}
 	timeAlive += deltaTime;
+
+	if (life <= 0)
+	{
+		isAlive = false;
+	}
 }
 
 void Enemy::UpdateMove(float deltaTime)
@@ -48,8 +53,12 @@ void Enemy::Draw(sf::RenderWindow* window)
 	window->draw(shape);
 }
 
+sf::Vector2f Enemy::GetPosition()
+{
+	return shape.getPosition();
+}
+
 Enemy::~Enemy()
 {
 	std::cout << "Enemy died" << std::endl;
-
 }

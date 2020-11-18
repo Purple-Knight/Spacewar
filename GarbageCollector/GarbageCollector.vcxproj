@@ -155,6 +155,7 @@
     <ClCompile Include="DeadBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GarbageCollector.cpp" />
+    <ClCompile Include="Guy.cpp" />
     <ClCompile Include="LifeDead.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="DeadBox.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Guy.h" />
     <ClInclude Include="LifeDead.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.h" />
