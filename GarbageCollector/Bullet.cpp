@@ -5,7 +5,7 @@
 #include "Bullet.h"
 #include "Player.h"
 
-const float BULLET_SIZE = 4;
+const float BULLET_SIZE = 8;
 const float SPEED = 1000;
 
 Bullet* CreateBullet(Player* pPlayer, sf::Vector2f direction)

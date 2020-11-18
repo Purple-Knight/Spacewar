@@ -11,6 +11,7 @@ struct Player
 
 Player* CreatePlayer(float x, float y);
 void PlayerMovement(Player* player, sf::Window& window, float deltaTime);
+void IsOutOfBounds(Player* player, sf::Window& window, float deltaTime);
 float GetRotationAngle(sf::Vector2f& object, sf::Vector2i& mouse);
 void DrawPlayer(sf::RenderWindow*, Player*);
 

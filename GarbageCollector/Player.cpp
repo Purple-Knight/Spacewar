@@ -42,7 +42,7 @@ void PlayerMovement(Player* player, sf::Window& window, float deltaTime)
 		player->playerShape.move((0.5 * speed * deltaTime), 0);
 	}
 	
-
+	IsOutOfBounds(player, window, deltaTime);
 
 	sf::Vector2i mousePos;
 	sf::Vector2f rectPos;
@@ -58,6 +58,31 @@ float GetRotationAngle(sf::Vector2f& object, sf::Vector2i& mouse)
 	float dy = mouse.y - object.y;
 	float radian = atan2f(dy, dx);
 	return radian * 180 / PI;
+}
+
+void IsOutOfBounds(Player* player, sf::Window& window, float deltaTime)
+{
+	float speed = player->speed;
+
+	if (player->playerShape.getPosition().x - (player->playerShape.getSize().x / 2) < 0)
+	{
+		player->playerShape.move((0.5 * speed * deltaTime), 0);
+	}
+	
+	if (player->playerShape.getPosition().x + (player->playerShape.getSize().x / 2) > window.getSize().x)
+	{
+		player->playerShape.move((-0.5 * speed * deltaTime), 0);
+	}
+	
+	if (player->playerShape.getPosition().y - (player->playerShape.getSize().y / 2) < 0)
+	{
+		player->playerShape.move(0, (0.5 * speed * deltaTime));
+	}
+	
+	if (player->playerShape.getPosition().y + (player->playerShape.getSize().y / 2) > window.getSize().y)
+	{
+		player->playerShape.move(0, (-0.5 * speed * deltaTime));
+	}
 }
 
 void DrawPlayer(sf::RenderWindow* window, Player* player)

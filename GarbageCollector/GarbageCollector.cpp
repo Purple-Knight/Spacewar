@@ -20,7 +20,7 @@ const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 int main()
 {
 	// Initialise everything below
-	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
+	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector", sf::Style::Fullscreen);
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
@@ -33,7 +33,7 @@ int main()
 	bool drawBox = false;
 
 
-	Player* player = CreatePlayer(400, 400);
+	Player* player = CreatePlayer(window.getSize().x / 2, window.getSize().y / 2);
 
 	Life life;
 	SetLife(&life);
