@@ -24,17 +24,20 @@ int main()
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
-	DeadBox* box = new DeadBox;
+	//DeadBox* box = new DeadBox;
 
-	bool end = true;
+	std::list<DeadBox*> box;
+	std::list<DeadBox*>::iterator boxIt = box.begin();
 	bool boxReplay = false;
-	setBox(box);
+	int nBoxSpawn = 0;
+	bool drawBox = false;
+
 
 	Player* player = CreatePlayer(400, 400);
 
 	Life life;
 	SetLife(&life);
-	bool lifeDown = false;
+	
 
 	Score score;
 	SetScore(&score);
@@ -73,23 +76,52 @@ int main()
 
 		if (score.score % 300 == 0 && !boxReplay)
 		{
-			end = false;
+			AddBox(&box);
 			boxReplay = true;
+
+			for (int i = 0; i < score.score / 300; i++)
+			{
+				nBoxSpawn++;
+			}
 		}
 		else if (score.score % 300 != 0)
 		{
 			boxReplay = false;
 		}
 
-
-		if (!end )
+		boxIt = box.begin();
+		while (boxIt != box.end())
 		{
-			end = MoveBox(box, deltaTime);
-			lifeDown = Dead(&life, box, player);
-			if (lifeDown)
+			if ((*boxIt)->GetEnd() == false)
 			{
-				end = true;
+				switch ((*boxIt)->GetRandom())
+				{
+				case 0 :
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxD(deltaTime));
+					break;
+
+				case 1:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxG(deltaTime));
+					break;
+
+				case 2:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxB(deltaTime));
+					break;
+
+				case 3:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxH(deltaTime));
+					break;
+
+				}
+
+				(*boxIt)->SetLifeDown(Dead(&life, *boxIt, player));
+
+				if ((*boxIt)->GetLifeDown())
+				{
+					(*boxIt)->SetEnd(true);
+				}
 			}
+			boxIt++;
 		}
 
 		while (window.pollEvent(event))
@@ -97,7 +129,7 @@ int main()
 			// Process any input event here
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			{
-				end = false;
+   				AddBox(&box);
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
@@ -209,14 +241,28 @@ int main()
 			
 			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
-			if (!end )
+
+			boxIt = box.begin();
+			while (boxIt != box.end())
 			{
-				DrawBox(&window, box);
-			}
-			else
-			{
-				setBox(box);
-				lifeDown = false;
+				if (nBoxSpawn != 0 && (*boxIt)->GetBoxScale() <= 0.5 && !drawBox)
+				{
+					AddBox(&box);
+					nBoxSpawn--;
+					drawBox = true;
+				}
+
+				if ((*boxIt)->GetEnd() == false)
+				{
+					(*boxIt)->DrawBox(&window);
+					boxIt++;
+				}
+				else
+				{
+					boxIt = box.erase(boxIt);
+					drawBox = false;
+				}
+
 			}
 		}
 
@@ -244,6 +290,5 @@ int main()
 		enemiesIt = enemies.erase(enemiesIt);
 	}
 
-	delete box;
 	return 0;
 }

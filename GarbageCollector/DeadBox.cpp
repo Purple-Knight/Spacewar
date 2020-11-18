@@ -1,59 +1,203 @@
 #include "DeadBox.h"
 
 const float speed = 0.2;
-const float center[2] = { 400,300 };
+const float center[2] = { 450,450 };
 
-void setBox(DeadBox* box)
+DeadBox::DeadBox()
 {
-	box->lineH.setSize(sf::Vector2f(800, 2));
-	box->lineH.setPosition(100, 100);
-	box->lineG.setSize(sf::Vector2f(2, 600));
-	box->lineG.setPosition(100, 100);
-	box->lineB.setSize(sf::Vector2f(800, 2));
-	box->lineB.setPosition(100, 700);
-	box->lineDH.setSize(sf::Vector2f(2, 200));
-	box->lineDH.setPosition(900, 100);
-	box->lineDB.setSize(sf::Vector2f(2, 200));
-	box->lineDB.setPosition(900, 600);
+	srand(time(NULL));
 
-	box->timeBox = 0;
+	random = rand() % 4;
+
+	timeBox = 0;
+	taille = 800;
+
+	end = false;
+	lifeDown = false;
 }
 
-void DrawBox(sf::RenderWindow* window,DeadBox* box)
+void DeadBox::DrawBox(sf::RenderWindow* window)
 {
-	window->draw(box->lineG);
-	window->draw(box->lineH);
-	window->draw(box->lineB);
-	window->draw(box->lineDH);
-	window->draw(box->lineDB);
+	window->draw(lineG);
+	window->draw(lineH);
+	window->draw(lineB);
+	window->draw(lineDH);
+	window->draw(lineDB);
 }
 
-bool MoveBox(DeadBox* box,float deltaTime)
+void DeadBox::setSizeGD(float boxWidth)
 {
-	float boxScale = 1 - (box->timeBox * speed);
+	lineH.setSize(sf::Vector2f(boxWidth, 2));
+	lineG.setSize(sf::Vector2f(2, boxWidth));
+	lineB.setSize(sf::Vector2f(boxWidth, 2));
+	lineDH.setSize(sf::Vector2f(2, boxWidth / 3));
+	lineDB.setSize(sf::Vector2f(2, boxWidth / 3));
+}
+
+void DeadBox::setSizeHB(float boxWidth)
+{	
+	lineH.setSize(sf::Vector2f(2, boxWidth));//ligne de droite
+	lineG.setSize(sf::Vector2f(2, boxWidth));
+	lineB.setSize(sf::Vector2f(boxWidth, 2));
+	lineDH.setSize(sf::Vector2f(boxWidth / 3, 2));
+	lineDB.setSize(sf::Vector2f(boxWidth / 3, 2 ));
+}
+
+bool DeadBox::MoveBoxD(float deltaTime) //n°1
+{
+	boxScale = 1 - (timeBox * speed);
 	float boxWidth = 800 * boxScale;
-	float boxHeight = 600 * boxScale;
+
 
 	if (boxScale > 0)
 	{
 
-		box->lineH.setSize(sf::Vector2f(boxWidth, 2));
-		box->lineG.setSize(sf::Vector2f(2,boxHeight));
-		box->lineB.setSize(sf::Vector2f(boxWidth, 2));
-		box->lineDH.setSize(sf::Vector2f(2, boxHeight / 3));
-		box->lineDB.setSize(sf::Vector2f(2, boxHeight / 3));
+		setSizeGD(boxWidth);
 
-		box->lineH.setPosition(center[0] - boxWidth / 2, center[1] - boxHeight / 2);
-		box->lineG.setPosition(center[0] - boxWidth / 2, center[1] - boxHeight / 2);
-		box->lineB.setPosition(center[0] - boxWidth / 2, center[1] + boxHeight / 2);
-		box->lineDH.setPosition(center[0] + boxWidth / 2, center[1] - boxHeight / 2);
-		box->lineDB.setPosition(center[0] + boxWidth / 2,(center[1] + boxHeight / 2)-boxHeight / 3);
+		lineH.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineG.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineB.setPosition(center[0] - boxWidth / 2, center[1] + boxWidth / 2);
+		lineDH.setPosition(center[0] + boxWidth / 2, center[1] - boxWidth / 2);
+		lineDB.setPosition(center[0] + boxWidth / 2,(center[1] + boxWidth / 2)- boxWidth / 3);
 
-		box->timeBox+=deltaTime;
+		timeBox+=deltaTime;
 
 		return false;
 	}
 
 	return true;
 	
+}
+
+bool DeadBox::MoveBoxG(float deltaTime) //n°2
+{
+	boxScale = 1 - (timeBox * speed);
+	float boxWidth = 800 * boxScale;
+
+
+	if (boxScale > 0)
+	{
+		setSizeGD(boxWidth);
+
+		//ligne coter droit
+		lineG.setPosition(center[0] + boxWidth / 2, center[1] - boxWidth / 2);
+
+		lineH.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineB.setPosition(center[0] - boxWidth / 2, center[1] + boxWidth / 2);
+
+		//ligne coter gauche
+		lineDH.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineDB.setPosition(center[0] - boxWidth / 2, (center[1] + boxWidth / 2) - boxWidth / 3);
+
+		timeBox += deltaTime;
+
+		return false;
+	}
+
+	return true;
+
+}
+
+bool DeadBox::MoveBoxH(float deltaTime)
+{
+	boxScale = 1 - (timeBox * speed);
+	float boxWidth = 800 * boxScale;
+
+
+	if (boxScale > 0)
+	{
+
+		setSizeHB(boxWidth);
+
+		//ligne coter droit
+		lineH.setPosition(center[0] + boxWidth / 2, center[1] - boxWidth / 2);
+
+		lineG.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineB.setPosition(center[0] - boxWidth / 2, center[1] + boxWidth / 2);
+
+		//ligne coter haut
+		lineDH.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineDB.setPosition((center[0] + boxWidth / 2) - boxWidth / 3, (center[1] - boxWidth / 2));
+
+		timeBox += deltaTime;
+
+		return false;
+	}
+
+	return true;
+
+}
+
+bool DeadBox::MoveBoxB(float deltaTime)
+{
+	boxScale = 1 - (timeBox * speed);
+	float boxWidth = 800 * boxScale;
+
+
+	if (boxScale > 0)
+	{
+
+		setSizeHB( boxWidth);
+
+		//ligne coter droit
+		lineH.setPosition(center[0] + boxWidth / 2, center[1] - boxWidth / 2);
+		
+		lineB.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+		lineG.setPosition(center[0] - boxWidth / 2, center[1] - boxWidth / 2);
+
+		//ligne coter bas
+		lineDH.setPosition(center[0] - boxWidth / 2, center[1] + boxWidth / 2);
+		lineDB.setPosition((center[0] + boxWidth / 2) - boxWidth / 3, center[1] + boxWidth / 2);
+
+		timeBox += deltaTime;
+
+		return false;
+	}
+
+	return true;
+
+}
+
+void DeadBox::SetLifeDown(bool life)
+{
+	lifeDown = life;
+}
+
+bool DeadBox::GetLifeDown()
+{
+	return lifeDown;
+}
+
+void DeadBox::SetEnd(bool end)
+{
+	this->end = end;
+}
+
+bool DeadBox::GetEnd()
+{
+	return end;
+}
+
+int DeadBox::GetRandom()
+{
+	return random;
+}
+
+float DeadBox::GetBoxScale(void)
+{
+	return boxScale;
+}
+
+void AddBox(std::list<DeadBox*> *box)
+{
+	DeadBox* newBox = new DeadBox;
+	if (newBox->GetRandom() == 0 || newBox->GetRandom() == 1)
+	{
+		newBox->setSizeGD(newBox->taille);
+	}
+	else
+	{
+		newBox->setSizeHB(newBox->taille);
+	}
+	box->push_back(newBox);
 }

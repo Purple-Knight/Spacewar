@@ -56,7 +56,7 @@ void DrawLife(sf::RenderWindow* window, Life* life)
 	}
 	else if (life->nLife < 0)
 	{
-		life->nLife == 0;
+		life->nLife = 0;
 	}
 
 	for (int i = 0; i < life->nLife; i++)
