@@ -1,68 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Enemies">
-      <UniqueIdentifier>{bad28f44-7bdf-45ad-8f39-370e86ca5656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Enemies">
-      <UniqueIdentifier>{288b4a80-73dc-4301-a310-c1a254d6e9f2}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="GarbageCollector.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DeadBox.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeDead.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Bob.cpp">
-      <Filter>Fichiers sources\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Fichiers sources\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Fichiers Sources</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="DeadBox.cpp">
+      <Filter>Fichiers Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GarbageCollector.cpp">
+      <Filter>Fichiers Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeDead.cpp">
+      <Filter>Fichiers Sources</Filter>
     </ClCompile>
     <ClCompile Include="MathUtils.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Fichiers Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Fichiers Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Bob.cpp">
+      <Filter>Fichiers Sources\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Fichiers Sources\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="BackGround.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="DeadBox.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
+    <ClInclude Include="LifeDead.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="LifeDead.h">
+    <ClInclude Include="MathUtils.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Bob.h">
@@ -71,14 +60,22 @@
     <ClInclude Include="Enemy.h">
       <Filter>Fichiers d%27en-tête\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="MathUtils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fichiers Sources">
+      <UniqueIdentifier>{8e4b1a2a-1292-43c6-a3c2-cb7a4dfabfb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{d994d4b9-b4e4-442b-ba53-0bde9ce334dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Enemies">
+      <UniqueIdentifier>{8fa4ee3e-f951-431b-ad3e-34ca034854a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers Sources\Enemies">
+      <UniqueIdentifier>{0d4a1a78-937f-4928-8aec-d5b68ae01b42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{51ed7c0d-6a36-4d4e-957e-91a4ede51c99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
