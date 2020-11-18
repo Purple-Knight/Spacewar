@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <windows.h>
 #include <list>
+#include <map>
 #include "DeadBox.h"
 #include "LifeDead.h"
 #include "Score.h"
@@ -19,21 +20,25 @@ const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 int main()
 {
 	// Initialise everything below
+
 	sf::RenderWindow window(sf::VideoMode(900, 900), "GarbageCollector");
 	sf::Clock clock;
 	float turnPerSecond = 60;
 
-	DeadBox* box = new DeadBox;
+	//DeadBox* box = new DeadBox;
 
-	bool end = true;
+	std::list<DeadBox*> box;
+	std::list<DeadBox*>::iterator boxIt = box.begin();
 	bool boxReplay = false;
-	setBox(box);
+	int nBoxSpawn = 0;
+	bool drawBox = false;
+
 
 	Player* player = CreatePlayer(400, 400);
 
 	Life life;
 	SetLife(&life);
-	bool lifeDown = false;
+	
 
 	Score score;
 	SetScore(&score);
@@ -47,7 +52,7 @@ int main()
 	std::list<Bullet*>::iterator bulletsIt = bullets.begin();
 	
 	// Game loop
-	while (window.isOpen())
+ 	while (window.isOpen())
 	{
 		sf::Event event;
 
@@ -59,31 +64,61 @@ int main()
 
 		if (score.score % 300 == 0 && !boxReplay)
 		{
-			end = false;
+			AddBox(&box);
 			boxReplay = true;
+
+			for (int i = 0; i < score.score / 300; i++)
+			{
+				nBoxSpawn++;
+			}
 		}
 		else if (score.score % 300 != 0)
 		{
 			boxReplay = false;
 		}
 
-
-		if (!end )
+		boxIt = box.begin();
+		while (boxIt != box.end())
 		{
-			end = MoveBox(box, deltaTime);
-			lifeDown = Dead(&life, box, player);
-			if (lifeDown)
+			if ((*boxIt)->GetEnd() == false)
 			{
-				end = true;
+				switch ((*boxIt)->GetRandom())
+				{
+				case 0 :
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxD(deltaTime));
+					break;
+
+				case 1:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxG(deltaTime));
+					break;
+
+				case 2:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxB(deltaTime));
+					break;
+
+				case 3:
+					(*boxIt)->SetEnd((*boxIt)->MoveBoxH(deltaTime));
+					break;
+
+				}
+
+				(*boxIt)->SetLifeDown(Dead(&life, *boxIt, player));
+
+				if ((*boxIt)->GetLifeDown())
+				{
+					(*boxIt)->SetEnd(true);
+				}
 			}
+			boxIt++;
 		}
+
 
 		while (window.pollEvent(event))
 		{
 			// Process any input event here
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			{
-				end = false;
+   				AddBox(&box);
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
@@ -170,7 +205,7 @@ int main()
 				bulletsIt++;
 			}
 
-			enemiesIt = enemies.begin();
+ 			enemiesIt = enemies.begin();
 			while (enemiesIt != enemies.end()) {
 				(*enemiesIt)->Draw(&window);
 				enemiesIt++;
@@ -178,18 +213,30 @@ int main()
 
 			DrawLife(&window, &life);
 			DrawPlayer(&window, player);
-			if (!end )
+
+			boxIt = box.begin();
+			while (boxIt != box.end())
 			{
-				DrawBox(&window, box);
-			}
-			else
-			{
-				setBox(box);
-				lifeDown = false;
+				if (nBoxSpawn != 0 && (*boxIt)->GetBoxScale() <= 0.5 && !drawBox)
+				{
+					AddBox(&box);
+					nBoxSpawn--;
+					drawBox = true;
+				}
+
+				if ((*boxIt)->GetEnd() == false)
+				{
+					(*boxIt)->DrawBox(&window);
+					boxIt++;
+				}
+				else
+				{
+					boxIt = box.erase(boxIt);
+					drawBox = false;
+				}
+
 			}
 		}
-
-
 
 		window.display();
 	}
@@ -201,6 +248,5 @@ int main()
 		bulletsIt++;
 	}
 
-	delete box;
 	return 0;
 }
