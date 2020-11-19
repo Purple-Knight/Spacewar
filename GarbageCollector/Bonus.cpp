@@ -22,11 +22,15 @@ Bonus::Bonus(sf::RenderWindow* window)
 	lifeDrope.setRadius(raduis);
 	lifeDrope.setOrigin(sf::Vector2f(raduis / 2, raduis / 2));
 	lifeDrope.setFillColor(pink);
+	//lifeDrope.setOutlineColor(sf::Color::Green);
+	//lifeDrope.setOutlineThickness(2.0f);
 	lifeDrope.setPosition(sf::Vector2f((rand()%window->getSize().x)-1, (rand() % window->getSize().y) - 1));
 
 	bombeDrope.setRadius(raduis);
 	bombeDrope.setOrigin(sf::Vector2f(raduis / 2, raduis / 2));
 	bombeDrope.setFillColor(grey);
+	//bombeDrope.setOutlineColor(sf::Color::Green);
+	//bombeDrope.setOutlineThickness(2.0f);
 	bombeDrope.setPosition(sf::Vector2f((rand() % window->getSize().x) - 1, (rand() % window->getSize().y) - 1));
 
 }
