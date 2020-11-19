@@ -54,6 +54,12 @@
     <ClCompile Include="Guy.cpp">
       <Filter>Fichiers sources\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="SuperBob.cpp">
+      <Filter>Fichiers sources\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Spawner.cpp">
+      <Filter>Fichiers sources\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -84,6 +90,12 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Guy.h">
+      <Filter>Fichiers d%27en-tête\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperBob.h">
+      <Filter>Fichiers d%27en-tête\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawner.h">
       <Filter>Fichiers d%27en-tête\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

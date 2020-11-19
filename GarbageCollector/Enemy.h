@@ -3,10 +3,6 @@
 #include <iostream>
 #include "MathUtils.h"
 
-
-
-
-
 class  Enemy
 {
 protected:
@@ -20,7 +16,7 @@ protected:
 	float y;
 
 public:
-	const float ENEMIES_SIZE = 25.0f;
+	const float ENEMIES_SIZE = 35.0f;
 	const int MIN_LIFE = 1;
 	const float MIN_SPEED = 150.0f;
 	const float MIN_LIFE_TIME = 30.0f;
@@ -31,6 +27,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
 	void Draw(sf::RenderWindow* window);
+	void TakeDamage();
 	sf::Vector2f GetPosition();
+	virtual float GetSize();
 	virtual ~Enemy();
 };

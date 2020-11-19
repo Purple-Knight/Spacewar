@@ -40,9 +40,9 @@ void BulletUpdate(Bullet* pBullet, float deltaTime)
 void TestCollision(Bullet* pBullet, Enemy* enemy)
 {
 	float distance = GetDist(pBullet, enemy);
-	if (distance < (BULLET_SIZE / 2.0f) + (enemy->ENEMIES_SIZE / 2.0f)) {
+	if (distance < (BULLET_SIZE / 2.0f) + (enemy->GetSize())) {
 		std::cout << "Touché!" << std::endl;
-		enemy->isAlive = false;
+		enemy->TakeDamage();
 		pBullet->isAlive = false;
 	}
 

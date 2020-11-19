@@ -160,6 +160,8 @@
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="SuperBob.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
@@ -172,6 +174,8 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="Spawner.h" />
+    <ClInclude Include="SuperBob.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

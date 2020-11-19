@@ -13,6 +13,7 @@ Guy::Guy(float x_, float y_, sf::RenderWindow* window_, Player* player_) : Enemy
 	shape.setPointCount(4);
 	shape.setFillColor(sf::Color::Yellow);
 	shape.setPosition(x, y);
+	shape.setRotation(0);
 
 	//set direction
 	direction.x = player->playerShape.getPosition().x - x;

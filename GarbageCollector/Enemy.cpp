@@ -53,9 +53,19 @@ void Enemy::Draw(sf::RenderWindow* window)
 	window->draw(shape);
 }
 
+void Enemy::TakeDamage()
+{
+	life--;
+}
+
 sf::Vector2f Enemy::GetPosition()
 {
 	return shape.getPosition();
+}
+
+float Enemy::GetSize()
+{
+	return ENEMIES_SIZE / 2.0f;
 }
 
 Enemy::~Enemy()

@@ -11,11 +11,11 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bob.h"
+#include "SuperBob.h"
 #include "Guy.h"
 #include "Bullet.h"
 #include "BackGround.h"
-
-const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
+#include "Spawner.h"
 
 
 int main()
@@ -43,8 +43,6 @@ int main()
 	Score score;
 	SetScore(&score,&window);
 
-	float enemiesSpawnTimer = 0.0f;
-
 	std::list<Enemy*> enemies;
 	std::list<Enemy*>::iterator enemiesIt = enemies.begin();
 
@@ -53,6 +51,9 @@ int main()
 	
 	std::list<Background*> stars;
 	std::list<Background*>::iterator starsIt = stars.begin();
+
+	//Init Spawner
+	Spawner* spawner = new Spawner(&enemies, &window, player);
 	
 	//Spawn Background
 	for (int i = 0; i < 450; i++)
@@ -199,15 +200,7 @@ int main()
 		}
 
 		// Spawn Enemy
-		enemiesSpawnTimer += deltaTime;
-		if (enemiesSpawnTimer > ENEMY_SPAWN_PERIOD) {
-			enemiesSpawnTimer = 0.0f;
-
-			float randomX = rand() * window.getSize().x / (float)RAND_MAX;
-			float randomY = rand() * window.getSize().y / (float)RAND_MAX;
-			Enemy* pNewEnemy = new Bob(randomX, randomY, &window);
-			enemies.push_back(pNewEnemy);
-		}
+		spawner->SpawnEnemy(deltaTime);
 
 		// Make sure all enemies are alive and Update it
 		enemiesIt = enemies.begin();
