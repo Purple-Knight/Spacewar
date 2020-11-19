@@ -14,6 +14,7 @@
 #include "Guy.h"
 #include "Bullet.h"
 #include "BackGround.h"
+#include "Bonus.h"
 
 const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 
@@ -33,6 +34,7 @@ int main()
 	int nBoxSpawn = 0;
 	bool drawBox = false;
 
+	Bonus* bonus = new Bonus(&window);
 
 	Player* player = CreatePlayer(window.getSize().x / 2, window.getSize().y / 2);
 
@@ -125,6 +127,9 @@ int main()
 			boxIt++;
 		}
 
+		bonus->CheckBombeIsAlive(deltaTime,&window);
+		bonus->ChecklifeUpIsAlive(deltaTime,&window);
+
 		while (window.pollEvent(event))
 		{
 			// Process any input event here
@@ -187,9 +192,6 @@ int main()
 			}
 		}
 
-		
-		
-
 		//Background Update
 		starsIt = stars.begin();
 		while (starsIt != stars.end())
@@ -224,6 +226,9 @@ int main()
 			}
 		}
 
+		bonus->CheckColisionBombe(player, &enemies, &box, &window);
+		bonus->CheckColisionLifeUp(player, &life, &window);
+
 		window.clear();
 
 		// Whatever I want to draw goes here
@@ -231,11 +236,11 @@ int main()
 		window.draw(score.idleScore);
 
 		starsIt = stars.begin();
-			while (starsIt != stars.end())
-			{
-				(*starsIt)->Draw(window);
-				starsIt++;
-			}
+		while (starsIt != stars.end())
+		{
+			(*starsIt)->Draw(window);
+			starsIt++;
+		}
 
 		if (life.nLife != 0)
 		{
@@ -278,11 +283,23 @@ int main()
 				}
 
 			}
+			
+			if (bonus->GetBombeIsAlive())
+			{
+				bonus->DrawBombe(&window);
+			}
+
+			if (bonus->GetlifeUpIsAlive())
+			{
+				bonus->DrawlifeUp(&window);
+			}
+			
 		}
 		else
 		{
 			GameOver(&score, &window);
 		}
+
 
 		window.display();
 	}
