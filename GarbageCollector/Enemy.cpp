@@ -35,12 +35,12 @@ void Enemy::Update(float deltaTime)
 
 void Enemy::UpdateMove(float deltaTime)
 {
-	if (x + direction.x - (ENEMIES_SIZE / 2) < 0 || x + direction.x + (ENEMIES_SIZE / 2) > window->getSize().x)
+	if (x + direction.x - GetSize() < 0 || x + direction.x + GetSize() > window->getSize().x)
 	{
 		direction.x *= -1;
 		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);
 	}
-	else if (y + direction.y - (ENEMIES_SIZE / 2) < 0 || y + direction.y + (ENEMIES_SIZE / 2) > window->getSize().y)
+	else if (y + direction.y - GetSize() < 0 || y + direction.y + GetSize() > window->getSize().y)
 	{
 		direction.y *= -1;
 		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);

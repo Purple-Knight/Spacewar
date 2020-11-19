@@ -3,6 +3,7 @@
 SuperBob::SuperBob(float x_, float y_, sf::RenderWindow* window_, std::list<Enemy*>* enemies_) : Bob(x_, y_, window_)
 {
 	shape.setRadius(ENEMIES_SIZE);
+	shape.setOrigin({ENEMIES_SIZE, ENEMIES_SIZE}); 
 	shape.setFillColor(sf::Color::White);
 	life = 3;
 	speed = MIN_SPEED / 2;
