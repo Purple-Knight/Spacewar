@@ -15,7 +15,7 @@ void SuperBob::Update(float deltaTime)
 	Bob::Update(deltaTime);
 }
 
-float SuperBob::GetSize()
+float SuperBob::GetRadius()
 {
 	return ENEMIES_SIZE;
 }

@@ -35,17 +35,28 @@ void Enemy::Update(float deltaTime)
 
 void Enemy::UpdateMove(float deltaTime)
 {
-	if (x + direction.x - GetSize() < 0 || x + direction.x + GetSize() > window->getSize().x)
+	if (x + direction.x - GetRadius() < 0 || x + direction.x + GetRadius() > window->getSize().x)
 	{
 		direction.x *= -1;
 		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);
 	}
-	else if (y + direction.y - GetSize() < 0 || y + direction.y + GetSize() > window->getSize().y)
+	else if (y + direction.y - GetRadius() < 0 || y + direction.y + GetRadius() > window->getSize().y)
 	{
 		direction.y *= -1;
 		shape.setRotation(ConvertRadToDeg(atan2f(direction.y, direction.x)) + 90);
 	}
 	
+}
+
+void Enemy::TestColitionPlayer(Player* player, Life* life_)
+{
+	sf::Vector2f playerEnemy = player->playerShape.getPosition() - GetPosition();
+	float distance = sqrt((playerEnemy.x * playerEnemy.x) + (playerEnemy.y * playerEnemy.y));
+	if (distance < (32.0f / 2) + GetRadius())
+	{
+		isAlive = false;
+		life_->nLife--;
+	}
 }
 
 void Enemy::Draw(sf::RenderWindow* window)
@@ -63,7 +74,7 @@ sf::Vector2f Enemy::GetPosition()
 	return shape.getPosition();
 }
 
-float Enemy::GetSize()
+float Enemy::GetRadius()
 {
 	return ENEMIES_SIZE / 2.0f;
 }

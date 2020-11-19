@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "MathUtils.h"
+#include "Player.h"
+#include "LifeDead.h"
 
 class  Enemy
 {
@@ -27,8 +29,9 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
 	void Draw(sf::RenderWindow* window);
+	void TestColitionPlayer(Player* player, Life* life_);
 	void TakeDamage();
 	sf::Vector2f GetPosition();
-	virtual float GetSize();
+	virtual float GetRadius();
 	virtual ~Enemy();
 };

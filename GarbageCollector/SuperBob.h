@@ -9,7 +9,7 @@ private:
 
 public:
 	SuperBob(float x_, float y_, sf::RenderWindow* window_, std::list<Enemy*>* enemies_);
-	float GetSize() override;
+	float GetRadius() override;
 	void Update(float deltaTime) override;
 	~SuperBob();
 };

@@ -214,6 +214,7 @@ int main()
 		while (enemiesIt != enemies.end()) {
 
 			(*enemiesIt)->Update(deltaTime);
+			(*enemiesIt)->TestColitionPlayer(player, &life);
 
 			if (!(*enemiesIt)->isAlive) {
 				(*enemiesIt)->~Enemy();
