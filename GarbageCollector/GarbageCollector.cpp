@@ -200,7 +200,14 @@ int main()
 		}
 
 		// Spawn Enemy
-		spawner->SpawnEnemy(deltaTime);
+		if (life.nLife != 0)
+		{
+			spawner->SpawnEnemy(deltaTime);
+		}
+		else
+		{
+			enemies.clear();
+		}
 
 		// Make sure all enemies are alive and Update it
 		enemiesIt = enemies.begin();

@@ -30,7 +30,7 @@ void Spawner::SpawnEnemy(float deltaTime)
 		}
 		else if (randomE > 90)
 		{
-			pNewEnemy = new SuperBob(randomX, randomY, window);
+			pNewEnemy = new SuperBob(randomX, randomY, window, enemies);
 		}
 		
 		enemies->push_back(pNewEnemy);

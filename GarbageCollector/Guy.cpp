@@ -20,8 +20,7 @@ Guy::Guy(float x_, float y_, sf::RenderWindow* window_, Player* player_) : Enemy
 	direction.y = player->playerShape.getPosition().y - y;
 	direction = direction / std::sqrt(direction.x * direction.x + direction.y * direction.y);
 
-	//debug
-	std::cout << "Guy : " << shape.getPosition().x << ", " << shape.getPosition().y << std::endl;
+	speed = MIN_SPEED * 3;
 }
 
 void Guy::Update(float deltaTime)
@@ -45,5 +44,4 @@ void Guy::UpdateMove(float deltaTime)
 
 Guy::~Guy()
 {
-	std::cout << "Guy died" << std::endl;
 }

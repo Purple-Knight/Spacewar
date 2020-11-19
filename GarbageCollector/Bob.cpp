@@ -14,9 +14,7 @@ Bob::Bob(float x_, float y_, sf::RenderWindow* window_) : Enemy(x_, y_, window_)
 	//set direction
 	direction.x = cos(ConvertDegToRad(dirAngle - 90));
 	direction.y = sin(ConvertDegToRad(dirAngle - 90));
-	
-	//debug
-	std::cout << "Bob : " << shape.getPosition().x << ", " << shape.getPosition().y << std::endl;
+
 }
 
 void Bob::Update(float deltaTime)
@@ -34,5 +32,4 @@ void Bob::UpdateMove(float deltaTime)
 
 Bob::~Bob()
 {
-	std::cout << "Bob died" << std::endl;
 }

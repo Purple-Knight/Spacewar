@@ -19,4 +19,3 @@ public:
 	Spawner(std::list<Enemy*>* enemies_, sf::RenderWindow* window_, Player* player_);
 	void SpawnEnemy(float deltaTime);
 };
-
