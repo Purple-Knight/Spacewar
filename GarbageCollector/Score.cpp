@@ -2,19 +2,19 @@
 
 void SetScore(Score* score, sf::RenderWindow* window)
 {
-    std::string tempo = getAssetsPath() + "arial.ttf";
+    std::string tempo = getAssetsPath() + "8-bit_Arcade.ttf";
     score->arial.loadFromFile(tempo);
 
 	score->score = 0;
 
     score->idleScore.setFont(score->arial);
-	score->idleScore.setCharacterSize(24);
+	score->idleScore.setCharacterSize(60);
     score->idleScore.setOrigin(sf::Vector2f(score->idleScore.getGlobalBounds().width / 2, score->idleScore.getGlobalBounds().height / 2));
 	score->idleScore.setPosition(sf::Vector2f(sf::Vector2f(window->getSize().x / 2, 0)));
     score->idleScore.setString(std::to_string(score->score));
 
     score->idleGameOver.setFont(score->arial);
-    score->idleGameOver.setCharacterSize(48);
+    score->idleGameOver.setCharacterSize(120);
     score->idleGameOver.setPosition(sf::Vector2f(sf::Vector2f(window->getSize().x / 2, (window->getSize().y / 2) - window->getSize().y / 10)));
     score->idleGameOver.setString("GAME OVER");
     score->idleGameOver.setOrigin(sf::Vector2f(score->idleGameOver.getGlobalBounds().width / 2, score->idleGameOver.getGlobalBounds().height/2));
