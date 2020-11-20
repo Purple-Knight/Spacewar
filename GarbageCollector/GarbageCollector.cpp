@@ -18,6 +18,7 @@
 #include "BackGround.h"
 #include "Spawner.h"
 #include "Bonus.h"
+#include "Explosion.h"
 
 const float ENEMY_SPAWN_PERIOD = 1.0f; // Spawn an entity every x seconds
 
@@ -67,6 +68,9 @@ int main()
 	
 	std::list<Background*> stars;
 	std::list<Background*>::iterator starsIt = stars.begin();
+
+	std::list<Explosion*> explosions;
+	std::list<Explosion*>::iterator explosionIt = explosions.begin();
 
 	//Init Spawner
 	Spawner* spawner = new Spawner(&enemies, &window, player);
@@ -144,6 +148,17 @@ int main()
 
 		bonus->CheckBombeIsAlive(deltaTime,&window);
 		bonus->ChecklifeUpIsAlive(deltaTime,&window);
+
+		if (life.startTimeSafe)
+		{
+			life.timeHit += deltaTime;
+			if (life.timeHit >= 1.0f)
+			{
+				life.startTimeSafe = false;
+				life.timeHit = 0;
+			}
+		}
+
 		while (window.pollEvent(event))
 		{
 			// Process any input event here
@@ -229,18 +244,38 @@ int main()
 
 		// Make sure all enemies are alive and Update it
 		enemiesIt = enemies.begin();
-		while (enemiesIt != enemies.end()) {
-
+		while (enemiesIt != enemies.end()) 
+		{
 			(*enemiesIt)->Update(deltaTime);
 			(*enemiesIt)->TestColitionPlayer(player, &life);
 
 			if (!(*enemiesIt)->isAlive) {
+
+				Explosion* pNewExplosion = new Explosion((*enemiesIt)->GetPosition().x, (*enemiesIt)->GetPosition().y, &window);
+				explosions.push_back(pNewExplosion);
+
 				(*enemiesIt)->~Enemy();
 				enemiesIt = enemies.erase(enemiesIt);
 			}
 			else {
 				enemiesIt++;
 			}
+		}
+
+		//Explosion Update
+		explosionIt = explosions.begin();
+		while (explosionIt != explosions.end())
+		{
+			(*explosionIt)->Update(deltaTime);
+
+			if (!(*explosionIt)->isAlive) {
+				(*explosionIt)->~Explosion();
+				explosionIt = explosions.erase(explosionIt);
+			}
+			else {
+				explosionIt++;
+			}
+
 		}
 
 		bonus->CheckColisionBombe(player, &enemies, &box, &window);
@@ -258,6 +293,14 @@ int main()
 			(*starsIt)->Draw(window);
 			starsIt++;
 		}
+		
+		//Draw Explosion
+		explosionIt = explosions.begin();
+		while (explosionIt != explosions.end())
+		{
+			(*explosionIt)->Draw();
+			explosionIt++;
+		}
 
 		if (life.nLife != 0)
 		{
@@ -271,7 +314,7 @@ int main()
 			//Draw Enemy
 			enemiesIt = enemies.begin();
 			while (enemiesIt != enemies.end()) {
-				(*enemiesIt)->Draw(&window);
+				(*enemiesIt)->Draw();
 				enemiesIt++;
 			}
 			

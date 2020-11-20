@@ -11,7 +11,7 @@ Bonus::Bonus(sf::RenderWindow* window)
 	lifeUpIsAlive = false;
 
 	timeOfLifeUpToSpawn = (rand() % 15) + 15;
-	timeOfBombeToSpawn = (rand() % 15) + 15;
+	timeOfBombeToSpawn = (rand() % 15) + 30;
 
 	lifeTimeOfLifeUp = 5;
 	lifeTimeOfBombe = 3;

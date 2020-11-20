@@ -4,13 +4,14 @@
 
 const float PI = 3.14159265358979323846f;
 const float PLAYER_SIZE = 32;
+sf::Color vert(0x228B22FF);
 
 Player* CreatePlayer(float x, float y) 
 {
 	Player* pPlayer = new Player;
 	pPlayer->playerShape.setSize({ PLAYER_SIZE, PLAYER_SIZE });
 	pPlayer->playerShape.setOrigin(PLAYER_SIZE / 2.0f, PLAYER_SIZE / 2.0f);
-	pPlayer->playerShape.setFillColor(sf::Color::Red);
+	pPlayer->playerShape.setFillColor(vert);
 	pPlayer->playerShape.setPosition(x, y);
 
 	pPlayer->speed = 1000.0f;

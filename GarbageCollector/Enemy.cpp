@@ -52,14 +52,15 @@ void Enemy::TestColitionPlayer(Player* player, Life* life_)
 {
 	sf::Vector2f playerEnemy = player->playerShape.getPosition() - GetPosition();
 	float distance = sqrt((playerEnemy.x * playerEnemy.x) + (playerEnemy.y * playerEnemy.y));
-	if (distance < (32.0f / 2) + GetRadius())
+	if (distance < (32.0f / 2) + GetRadius() && !life_->startTimeSafe)
 	{
+		life_->startTimeSafe = true;
 		isAlive = false;
 		life_->nLife--;
 	}
 }
 
-void Enemy::Draw(sf::RenderWindow* window)
+void Enemy::Draw()
 {
 	window->draw(shape);
 }
