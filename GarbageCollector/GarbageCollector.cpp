@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <windows.h>
 #include <list>
 #include "DeadBox.h"
@@ -43,7 +44,18 @@ int main()
 	Life life;
 	SetLife(&life,&window);
 	
-
+	//Music
+	sf::Music mainTheme;
+	std::string music = getAssetsPath() + "MainTheme.ogg";
+	mainTheme.setVolume(10);
+	mainTheme.setLoop(true);
+	if (!mainTheme.openFromFile(music))
+	{
+		return -1;
+	}
+	mainTheme.play();
+	
+	//Score
 	Score score;
 	SetScore(&score,&window);
 
