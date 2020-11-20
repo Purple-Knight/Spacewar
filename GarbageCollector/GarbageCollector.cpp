@@ -136,6 +136,17 @@ int main()
 
 		bonus->CheckBombeIsAlive(deltaTime,&window);
 		bonus->ChecklifeUpIsAlive(deltaTime,&window);
+
+		if (life.startTimeSafe)
+		{
+			life.timeHit += deltaTime;
+			if (life.timeHit >= 1.0f)
+			{
+				life.startTimeSafe = false;
+				life.timeHit = 0;
+			}
+		}
+
 		while (window.pollEvent(event))
 		{
 			// Process any input event here

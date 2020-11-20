@@ -9,38 +9,44 @@ void SetLife(Life* life, sf::RenderWindow* window)
 		life->iconeLife[i].setOrigin(sf::Vector2f(10, 10));
 		life->iconeLife[i].setPosition(sf::Vector2f(window->getSize().x - (i * 50) - 40, 20));
 	}
+	life->timeHit = 0;
+	life->startTimeSafe = false;
 }
 
 bool Dead(Life* life,DeadBox * deadBox, Player* player)
 {
 	if (life->nLife != 0)
 	{
-		if (deadBox->lineH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		if (deadBox->lineH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()) && !life->startTimeSafe)
+		{
+			life->startTimeSafe = true;
+			life->nLife--;
+			return true;
+		}
+
+		if (deadBox->lineB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()) && !life->startTimeSafe)
 		{
 			life->nLife--;
 			return true;
 		}
 
-		if (deadBox->lineB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		if (deadBox->lineG.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()) && !life->startTimeSafe)
 		{
+			life->startTimeSafe = true;
 			life->nLife--;
 			return true;
 		}
 
-		if (deadBox->lineG.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		if (deadBox->lineDB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()) && !life->startTimeSafe)
 		{
+			life->startTimeSafe = true;
 			life->nLife--;
 			return true;
 		}
 
-		if (deadBox->lineDB.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
+		if (deadBox->lineDH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()) && !life->startTimeSafe)
 		{
-			life->nLife--;
-			return true;
-		}
-
-		if (deadBox->lineDH.getGlobalBounds().intersects(player->playerShape.getGlobalBounds()))
-		{
+			life->startTimeSafe = true;
 			life->nLife--;
 			return true;
 		}

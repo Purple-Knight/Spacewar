@@ -5,7 +5,7 @@ void SetScore(Score* score, sf::RenderWindow* window)
     std::string tempo = getAssetsPath() + "arial.ttf";
     score->arial.loadFromFile(tempo);
 
-	score->score = 10;
+	score->score = 0;
 
     score->idleScore.setFont(score->arial);
 	score->idleScore.setCharacterSize(24);

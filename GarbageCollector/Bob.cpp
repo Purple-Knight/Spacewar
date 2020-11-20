@@ -7,7 +7,7 @@ Bob::Bob(float x_, float y_, sf::RenderWindow* window_) : Enemy(x_, y_, window_)
 	//set Shape
 	shape.setRadius(ENEMIES_SIZE / 2);
 	shape.setPointCount(3);
-	shape.setFillColor(sf::Color::Magenta);
+	shape.setFillColor(sf::Color::Red);
 	shape.setPosition(x, y);
 	shape.setRotation(dirAngle);
 

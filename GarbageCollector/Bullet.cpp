@@ -14,7 +14,7 @@ Bullet* CreateBullet(Player* pPlayer, sf::Vector2f direction)
 	Bullet* pBullet = new Bullet;
 	pBullet->bulletShape.setSize({ BULLET_SIZE, BULLET_SIZE });
 	pBullet->bulletShape.setOrigin(BULLET_SIZE / 2.0f, BULLET_SIZE / 2.0f);
-	pBullet->bulletShape.setFillColor(sf::Color::Magenta);
+	pBullet->bulletShape.setFillColor(sf::Color::Green);
 	pBullet->bulletShape.setPosition(pPlayer->playerShape.getPosition());
 	pBullet->direction = direction;
 	pBullet->isInCollision = false;
