@@ -28,7 +28,7 @@ public:
 	Enemy(float x_, float y_, sf::RenderWindow* window_);
 	virtual void Update(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
-	void Draw(sf::RenderWindow* window);
+	void Draw();
 	void TestColitionPlayer(Player* player, Life* life_);
 	void TakeDamage();
 	sf::Vector2f GetPosition();

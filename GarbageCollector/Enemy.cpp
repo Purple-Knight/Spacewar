@@ -59,7 +59,7 @@ void Enemy::TestColitionPlayer(Player* player, Life* life_)
 	}
 }
 
-void Enemy::Draw(sf::RenderWindow* window)
+void Enemy::Draw()
 {
 	window->draw(shape);
 }
