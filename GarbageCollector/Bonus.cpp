@@ -19,6 +19,9 @@ Bonus::Bonus(sf::RenderWindow* window)
 	timeLifeUp = 0;
 	timeBombe = 0;
 
+	timeWhiteScreen = 0;
+	startWhiteScreen = false;
+
 	lifeDrope.setRadius(raduis);
 	lifeDrope.setOrigin(sf::Vector2f(raduis / 2, raduis / 2));
 	lifeDrope.setFillColor(pink);
@@ -151,5 +154,27 @@ void Bonus::CheckColisionBombe(Player* player, std::list<Enemy*>* enemy, std::li
 		bombeIsAlive = false;
 		timeBombe = 0;
 		ResetBombe(window);
+		startWhiteScreen = true;
 	}
+}
+
+bool Bonus::GetSartWhitScreen()
+{
+	return startWhiteScreen;
+}
+
+void Bonus::SetTimeWhiteScreen(float deltaTime)
+{
+	timeWhiteScreen += deltaTime;
+}
+
+float Bonus::GetTimeWhiteScreen()
+{
+	return timeWhiteScreen;
+}
+
+void Bonus::ResetTimeWhiteScreen()
+{
+	timeWhiteScreen = 0;
+	startWhiteScreen = false;
 }

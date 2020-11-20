@@ -281,83 +281,98 @@ int main()
 		bonus->CheckColisionBombe(player, &enemies, &box, &window);
 		bonus->CheckColisionLifeUp(player, &life, &window);
 
-		window.clear();
-
-		// Whatever I want to draw goes here
-
-		window.draw(score.idleScore);
-
-		starsIt = stars.begin();
-		while (starsIt != stars.end())
+		if (!bonus->GetSartWhitScreen())
 		{
-			(*starsIt)->Draw(window);
-			starsIt++;
-		}
+			window.clear();
+
+			// Whatever I want to draw goes here
+
+			window.draw(score.idleScore);
+
+			starsIt = stars.begin();
+			while (starsIt != stars.end())
+			{
+				(*starsIt)->Draw(window);
+				starsIt++;
+			}
 		
-		//Draw Explosion
-		explosionIt = explosions.begin();
-		while (explosionIt != explosions.end())
-		{
-			(*explosionIt)->Draw();
-			explosionIt++;
-		}
-
-		if (life.nLife != 0)
-		{
-			//Draw Bullet
-			bulletsIt = bullets.begin();
-			while (bulletsIt != bullets.end())
+			//Draw Explosion
+			explosionIt = explosions.begin();
+			while (explosionIt != explosions.end())
 			{
-				Draw(*bulletsIt, window);
-				bulletsIt++;
+				(*explosionIt)->Draw();
+				explosionIt++;
 			}
-			//Draw Enemy
-			enemiesIt = enemies.begin();
-			while (enemiesIt != enemies.end()) {
-				(*enemiesIt)->Draw();
-				enemiesIt++;
-			}
-			
-			DrawLife(&window, &life);
-			DrawPlayer(&window, player);
 
-			boxIt = box.begin();
-			while (boxIt != box.end())
+			if (life.nLife != 0)
 			{
-				if (nBoxSpawn != 0 && (*boxIt)->GetBoxScale() <= 0.5 && !drawBox)
+				//Draw Bullet
+				bulletsIt = bullets.begin();
+				while (bulletsIt != bullets.end())
 				{
-					AddBox(&box, &window);
-					nBoxSpawn--;
-					drawBox = true;
+					Draw(*bulletsIt, window);
+					bulletsIt++;
+				}
+				//Draw Enemy
+				enemiesIt = enemies.begin();
+				while (enemiesIt != enemies.end()) {
+					(*enemiesIt)->Draw();
+					enemiesIt++;
+				}
+			
+				DrawLife(&window, &life);
+				DrawPlayer(&window, player);
+
+				boxIt = box.begin();
+				while (boxIt != box.end())
+				{
+					if (nBoxSpawn != 0 && (*boxIt)->GetBoxScale() <= 0.5 && !drawBox)
+					{
+						AddBox(&box, &window);
+						nBoxSpawn--;
+						drawBox = true;
+					}
+
+					if ((*boxIt)->GetEnd() == false)
+					{
+						(*boxIt)->DrawBox(&window);
+						boxIt++;
+					}
+					else
+					{
+						boxIt = box.erase(boxIt);
+						drawBox = false;
+					}
+
+				}
+			
+				if (bonus->GetBombeIsAlive())
+				{
+					bonus->DrawBombe(&window);
 				}
 
-				if ((*boxIt)->GetEnd() == false)
+				if (bonus->GetlifeUpIsAlive())
 				{
-					(*boxIt)->DrawBox(&window);
-					boxIt++;
+					bonus->DrawlifeUp(&window);
 				}
-				else
-				{
-					boxIt = box.erase(boxIt);
-					drawBox = false;
-				}
-
-			}
 			
-			if (bonus->GetBombeIsAlive())
-			{
-				bonus->DrawBombe(&window);
 			}
-
-			if (bonus->GetlifeUpIsAlive())
+			else
 			{
-				bonus->DrawlifeUp(&window);
+				GameOver(&score, &window);
 			}
-			
 		}
 		else
 		{
-			GameOver(&score, &window);
+			bonus->SetTimeWhiteScreen(deltaTime);
+			if (bonus->GetTimeWhiteScreen() >= 0.15)
+			{
+				bonus->ResetTimeWhiteScreen();
+			}
+			else
+			{
+				window.clear(sf::Color(0x696969FF));
+			}
 		}
 
 		window.display();

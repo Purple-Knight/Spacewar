@@ -29,6 +29,9 @@ private:
 	float timeLifeUp;
 	float timeBombe;
 
+	float timeWhiteScreen;
+	bool startWhiteScreen;
+
 public :
 	Bonus(sf::RenderWindow*);
 	void Bombe(std::list<Enemy*>*,std::list<DeadBox*>*);
@@ -43,5 +46,9 @@ public :
 	void ResetLifeUp(sf::RenderWindow*);
 	void CheckColisionLifeUp(Player*, Life*, sf::RenderWindow*);
 	void CheckColisionBombe(Player*, std::list<Enemy*>*, std::list<DeadBox*>*, sf::RenderWindow*);
+	bool GetSartWhitScreen();
+	void SetTimeWhiteScreen(float);
+	float GetTimeWhiteScreen();
+	void ResetTimeWhiteScreen();
 };
 
